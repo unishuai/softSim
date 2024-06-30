@@ -32,6 +32,7 @@ if __name__ == "__main__":
     for i in range(10000):
 
         time.sleep(0.007)
-        robot.step([0.3, -.4,0.2],0.085,5)
+        # robot.step([0.3, -.4,0.2],0.085,5)
+        robot.step([0.3, -.4,0.2],3.14,5)
         # robot.moveArm(robot.arm_rest_poses)
         p.stepSimulation()

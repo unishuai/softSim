@@ -4,7 +4,7 @@
 # # @Author  : 帅宇昕
 # # ============================================
 import math
-from abc import ABC,abstractmethod
+from abc import ABC, abstractmethod
 
 import numpy as np
 import pybullet as p
@@ -24,8 +24,19 @@ class Ur10FreeHnadSim(object):
 
         # 机械臂的自由度
         self.arm_num_dofs = 6
-        # 机械臂的初始位置
-        self.arm_rest_poses = [-1.5690622952052096, -1.5446774605904932, 1.343946009733127, -1.3708613585093699, -1.5707970583733368, 0.0009377758247187636]
+        # 机械臂的初始位置_6个自由度控制
+        self.arm_rest_poses = [-1.5690622952052096, -1.5446774605904932, 1.343946009733127, -1.3708613585093699,
+                               -1.5707970583733368, 0.0009377758247187636]
+
+        # 指抓的10个自由度初始位姿控制
+        self.hand_rest_poses = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        self.hand_closed_poses = [0, 2.090, 1.744, 0.743,
+                                  0, 2.090, 1.744, 0.743,
+                                  0, 2.090, 1.744, 0.743,
+                                  0, 2.090, 1.744, 0.743,
+                                  2.090, -0.132, 1.744, 1.505
+                                  ]
 
         # todo:读取urdf 文件
         # 加载地面
@@ -43,9 +54,9 @@ class Ur10FreeHnadSim(object):
         numJoints = p.getNumJoints(self.robotId)
         # 简单的一个java 类
         jointInfo = namedtuple('jointInfo',
-                                    ['id', 'name', 'type', 'damping', 'friction', 'lowerLimit', 'upperLimit',
-                                     'maxForce',
-                                     'maxVelocity', 'controllable'])
+                               ['id', 'name', 'type', 'damping', 'friction', 'lowerLimit', 'upperLimit',
+                                'maxForce',
+                                'maxVelocity', 'controllable'])
         # 这个记录每个关节信息
         self.joints = []
         # 这个记录可以控制的关节信息
@@ -74,8 +85,8 @@ class Ur10FreeHnadSim(object):
                 #                         targetVelocity=0, force=0)
             # 添加进这个类似java的类里面
             info = jointInfo(jointID, jointName, jointType, jointDamping, jointFriction, jointLowerLimit,
-                                  jointUpperLimit,
-                                  jointMaxForce, jointMaxVelocity, controllable)
+                             jointUpperLimit,
+                             jointMaxForce, jointMaxVelocity, controllable)
             # 然后把所有信息存储起来
             self.joints.append(info)
 
@@ -83,16 +94,25 @@ class Ur10FreeHnadSim(object):
             self.controllable_joints) > self.arm_num_dofs, "自由度低于6，应该是没有读取到机械臂了,controllable_joints={0},arm_num_dofs{1}".format(
             len(self.controllable_joints), self.arm_num_dofs)
 
+        #==============手臂==============
         # 单独获取对手臂控制的关节
         self.arm_controllable_joints = self.controllable_joints[:self.arm_num_dofs]
-
         # 获取手臂的下限
         self.arm_lower_limits = [info.lowerLimit for info in self.joints if info.controllable][:self.arm_num_dofs]
         # 获取手臂的上限
         self.arm_upper_limits = [info.upperLimit for info in self.joints if info.controllable][:self.arm_num_dofs]
         # 获取手臂的移动范围
-        self.arm_joint_ranges = [info.upperLimit - info.lowerLimit for info in self.joints if info.controllable][
-                                :self.arm_num_dofs]
+        self.arm_joint_ranges = [info.upperLimit - info.lowerLimit for info in self.joints if info.controllable][:self.arm_num_dofs]
+
+        # ==============手==============
+        # 单独获取对手关节抓控制的关节
+        self.hand_controllable_joints = self.controllable_joints[self.arm_num_dofs:]
+        # 获取手关节的下限
+        self.hand_lower_limits = [info.lowerLimit for info in self.joints if info.controllable][self.arm_num_dofs:]
+        # 获取手关节的上限
+        self.hand_upper_limits = [info.upperLimit for info in self.joints if info.controllable][self.arm_num_dofs:]
+        # 获取手关节的移动范围
+        self.hand_joint_ranges = [info.upperLimit - info.lowerLimit for info in self.joints if info.controllable][self.arm_num_dofs:]
 
         # todo:初始化位姿，后续就应该是编写相应的指抓函数了
         self.moveArm(self.arm_rest_poses)
@@ -117,6 +137,15 @@ class Ur10FreeHnadSim(object):
                                         joint_poses[i],
                                         force=self.joints[joint_id].maxForce,
                                         maxVelocity=myMaxVelocity)
+                
+    def controlHand(self, action):
+        joint_poses=action
+        for i, joint_id in enumerate(self.hand_controllable_joints):
+            p.setJointMotorControl2(self.robotId, joint_id, p.POSITION_CONTROL,
+                                    joint_poses[i],
+                                    # force=self.joints[joint_id].maxForce,
+                                    force=100,
+                                    maxVelocity=self.joints[joint_id].maxVelocity)
 
     # def setArmPos(self, pos, orn=None):
     #     '''
@@ -144,17 +173,17 @@ class Ur10FreeHnadSim(object):
                                                                    maxNumIterations=20)
         return jointPoses
 
-
-    def step(self, pos, angle,gripper_w, g_height=0.275):
+    def step(self, pos, angle, gripper_w, g_height=0.275):
         pass
-
 
     def reset(self):
-        pass
-
+        self.moveArm(self.arm_rest_poses)
+        self.controlHand(self.hand_rest_poses)
+        
 
     def update_state(self):
         raise NotImplementedError
+
 
 class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
     """
@@ -163,28 +192,26 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
 
     def reset(self):
         """
-                        重置状态
-                """
+        重置状态
+        """
+
         self.state = 0
         self.state_t = 0
         self.cur_state = 0
-        self.moveArm(self.arm_rest_poses)
+        super().reset()
+
 
     def __init__(self, bullet_client, offset: list = None):
 
         if offset is None:
             offset = [0, 0, 0]
         super().__init__(bullet_client, offset)
-        self.state=-1
+        self.state = -1
         self.state_t = 0
         self.cur_state = 0
-        self.states = [0, 1, 2, 3, 4, 5, 12]
+        self.states = [0, 1, 2, 3, 4, 5,6, 12]
         self.control_dt = 1. / 240
-        self.state_durations = [1.0, 0.5, 2.0, 0.5, 1.0, 1.0, 0.5]
-
-
-
-
+        self.state_durations = [1.0, 0.5, 2.0,1.0, 0.5, 1.0, 1.0, 0.5]
 
     def update_state(self):
         self.state_t += self.control_dt
@@ -195,7 +222,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             self.state_t = 0
             self.state = self.states[self.cur_state]
 
-    def step(self, pos, angle,gripper_w, g_height=0.275):
+    def step(self, pos, angle, gripper_w, g_height=0.275):
         """
         我觉的step还是得在simAuto,因为本身的sim其实并不参与多少动作，应当降低耦合度才是
         :param gripper_w:
@@ -207,22 +234,22 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
         # 更新
         self.update_state()
 
-
         open_length = gripper_w
 
         # self.state += 1
 
-        pos[2] += 0.048
+        # pos[2] += 0.048
+        pos[2] += g_height
         if self.state == -1:
             pass
 
         elif self.state == 0:
+            # 到达抓取点的正上方
 
-            # print('恢复初始状态')
             # pos[2] = 0.5
-            pos[2] = 0.2+g_height
+            pos[2] = 0.2
             # euler = [0,0, angle + math.pi / 2]
-            euler = [0,0, angle ]
+            euler = [0, 0, angle]
             orn = self.bullet_client.getQuaternionFromEuler(euler)  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
 
@@ -233,8 +260,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             return False
 
         elif self.state == 1:
-
-            # print('物体上方')
+            # 在抓取点的正上方做一个下降的操作
             pos[2] += 0.05
             orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle])  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
@@ -243,8 +269,8 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             return False
 
         elif self.state == 2:
-            # print('抓取位置')
-            orn = self.bullet_client.getQuaternionFromEuler([0,0, angle ])  # 机械手方向
+            # 这里就到达了预定的抓取位置，机械臂继续下落后，手应该和点重合
+            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle])  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
             # In fact, I abandoned this parameter -->(myMaxVelocity)
             # 因为我读取urdf的文件的时候有，暂时先不删除
@@ -252,39 +278,40 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             return False
 
         elif self.state == 3:
+            # 这里就做了一个抓取的操作
             # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             # self.move_gripper(0)
+            thirds_list = [x / 2 for x in self.hand_closed_poses]
+            self.controlHand(thirds_list)
             return False
 
         elif self.state == 4:
+            # 这里手指头完全闭合
+            # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            # self.move_gripper(0)
+            self.controlHand(self.hand_closed_poses)
+            return False
+
+        elif self.state == 5:
             # print('物体上方(预抓取位置)')
             pos[2] += 0.05
-            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle ])  # 机械手方向
+            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle])  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
             self.moveArm(jointPoses)
 
             return False
 
-        elif self.state == 5:
+        elif self.state == 6:
             # print('物体上方')
             # pos[2] = 0.3
-            pos[2] = 0.3+g_height
+            pos[2] = 0.3
 
-            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle ])  # 机械手方向
+            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle])  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
             self.moveArm(jointPoses)
 
             return False
-        elif self.state == 5:
-            # print('物体上方')
-            # pos[2] = 0.3
-            pos[2] = 0.3+g_height
 
-            orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle ])  # 机械手方向
-            jointPoses = self.calcJointLocation(pos, orn)
-            self.moveArm(jointPoses)
-
-            return False
 
         elif self.state == 12:
 
@@ -292,4 +319,3 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
 
             self.reset()  # 重置状态
             return True
-
