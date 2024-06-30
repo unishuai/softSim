@@ -21,7 +21,7 @@ p.setGravity(0, 0, -9.8)
 
 # 加载地面
 p.loadURDF("plane.urdf")
-robot = p.loadURDF(r"freehand_description/urdf/freehand_description.urdf",
+robot = p.loadURDF(r"freehand_description/urdf/freehand_description.urdf",basePosition=[0,0,0], useFixedBase=1
                    )
 
 
