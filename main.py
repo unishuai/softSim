@@ -1,16 +1,37 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+import pybullet as p
+import pybullet_data
+import time
+import ur10FreeHandSim as mySim
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+
+
+
+
+if __name__ == "__main__":
+    physicsClient = p.connect(p.GUI) # or p.DIRECT for non-graphical version
+
+    p.setAdditionalSearchPath(pybullet_data.getDataPath()) # optionally
+    # print(pybullet_data.getDataPath())
+    p.setGravity(0,0,-9.8)
+    planeId = p.loadURDF("plane.urdf",basePosition=[0, 0, 0])
+    robot=mySim.Ur10FreeHnadSimAuto(p,[0,0,0])
+    # robot=mySim.Ur10FreeHnadSim(p,[0,0,0.0])
+
+
+
+    # # fps = 240.
+    # # timeStep = 1. / fps
+    # # 设置仿真步长
+    # p.setTimeStep(robot.control_dt)
+    # # 设置重力
+    # p.setGravity(0, 0, -9.8)
+    #
+    for i in range(10000):
+
+        time.sleep(0.007)
+        robot.step([0.3, -.4,0.2],0.085,5)
+        # robot.moveArm(robot.arm_rest_poses)
+        p.stepSimulation()
