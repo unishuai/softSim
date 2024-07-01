@@ -211,7 +211,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
         self.cur_state = 0
         self.states = [0, 1, 2, 3, 4, 5,6, 12]
         self.control_dt = 1. / 240
-        self.state_durations = [1.0, 0.5, 2.0,1.0, 0.5, 1.0, 1.0, 0.5]
+        self.state_durations = [1.0, 0.5, 2.0,1.0, 0.5, 1.0, 1.0, 0.28]
 
     def update_state(self):
         self.state_t += self.control_dt
@@ -222,7 +222,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             self.state_t = 0
             self.state = self.states[self.cur_state]
 
-    def step(self, pos, angle, gripper_w, g_height=0.275):
+    def step(self, posTmp, angle, gripper_w, g_height=0.33):
         """
         我觉的step还是得在simAuto,因为本身的sim其实并不参与多少动作，应当降低耦合度才是
         :param gripper_w:
@@ -231,6 +231,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
         :param g_height:偏置值
         :return:
         """
+        pos = [x for x in posTmp]
         # 更新
         self.update_state()
 
@@ -247,16 +248,16 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
             # 到达抓取点的正上方
 
             # pos[2] = 0.5
-            pos[2] = 0.2
+            pos[2] += 0.2
             # euler = [0,0, angle + math.pi / 2]
             euler = [0, 0, angle]
             orn = self.bullet_client.getQuaternionFromEuler(euler)  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
 
             self.moveArm(jointPoses)
-            print(f"指抓需要张开的长度{open_length}")
-            # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            # self.move_gripper(open_length)
+            # print(f"指抓需要张开的长度{open_length}")
+            forth_list = [x / 4 for x in self.hand_closed_poses]
+            self.controlHand(forth_list)
             return False
 
         elif self.state == 1:
@@ -304,7 +305,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHnadSim):
         elif self.state == 6:
             # print('物体上方')
             # pos[2] = 0.3
-            pos[2] = 0.3
+            pos[2] += 0.2
 
             orn = self.bullet_client.getQuaternionFromEuler([0, 0, angle])  # 机械手方向
             jointPoses = self.calcJointLocation(pos, orn)
