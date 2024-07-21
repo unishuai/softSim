@@ -1,8 +1,8 @@
-# # ============================================
-# # @File    : ur10FreeHandSim.py
-# # @Date    : 2024-06-29 18:14
-# # @Author  : 帅宇昕
-# # ============================================
+# ============================================
+# @File    : ur10FreeHandSim.py
+# @Date    : 2024-06-29 18:14
+# @Author  : 帅宇昕
+# ============================================
 import math
 from abc import ABC, abstractmethod
 
@@ -431,6 +431,7 @@ class Ur10FreeHandSimMultiEffortsAuto(Ur10FreeHandSim):
             # 这里手指头完全闭合
             # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             self.controlHand(self.hand_closed_poses)
+
             return False
 
         elif self.state == 5:

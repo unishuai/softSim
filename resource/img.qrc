@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/">
+    <file>Satoru01.jpeg</file>
+    <file>Satoru02.jpg</file>
+    <file>Satoru03.jpg</file>
+  </qresource>
+</RCC>
