@@ -43,7 +43,7 @@ class Ur10FreeHandSim(object):
         # todo:读取urdf 文件
         # 加载地面
         # self.bullet_client.loadURDF("plane.urdf")
-        self.robotId = self.bullet_client.loadURDF(r"freehand_description/urdf/freehand_description.urdf",
+        self.robotId = self.bullet_client.loadURDF(r"../freehand_description/urdf/freehand_description.urdf",
                                                    basePosition=[0, 0, 0],
                                                    )
         if self.robotId < 0:
@@ -186,6 +186,27 @@ class Ur10FreeHandSim(object):
     def update_state(self):
         raise NotImplementedError
 
+    def getFingerRange(self):
+        """
+        用来返回数据，供页面交互用
+        :return: 获取指抓关节的关节角
+        """
+        fingerRange=dict()
+        fingerNum:int=5
+        fingerAngle:int=4
+        startNum:int=9
+        for i  in range(fingerNum):
+            fingerTmp="finger"+str(i+1)
+            tmpList=list()
+            for j in range(fingerAngle):
+                tmpList.append([self.joints[startNum].lowerLimit,self.joints[startNum].upperLimit])
+                startNum+=1
+            fingerRange[fingerTmp]=tmpList
+
+        return fingerRange
+
+
+
 
 class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
     """
@@ -223,6 +244,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
                 self.cur_state = 0
             self.state_t = 0
             self.state = self.states[self.cur_state]
+
 
     def step(self, posTmp, angle, gripper_w, g_height=0.33):
         """
@@ -322,3 +344,5 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
 
             self.reset()  # 重置状态
             return True
+
+

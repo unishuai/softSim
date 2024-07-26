@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         # 这里的话，需要将函数的本身而不是函数的结果添加到绑定的计时器中
         self.timer.timeout.connect(self.updateWorld)
-        self.timer.start(1000 / 240)
+        self.timer.start(1000.0 / 240.0)
 
 
     def updateWorld(self):

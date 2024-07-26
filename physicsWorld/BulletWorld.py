@@ -3,8 +3,6 @@
 # @Date    : 2024-07-20 15:46
 # @Author  : 帅宇昕
 # ============================================
-import argparse
-import random
 
 import numpy as np
 import pybullet as p
@@ -14,12 +12,13 @@ import time
 # import ur10FreeHandSim as mySim
 from PySide6.QtCore import QObject
 
-import ur10FreeHandSimMultiEfforts as mySim
+import physicsWorld.ur10FreeHandSim as mySim
 
 
 class BulletWorld(QObject):
     def __init__(self):
         super().__init__()
+
         self.p=p
         self.client_id = p.connect(p.GUI)  # 使用GUI模式
         self.p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -28,7 +27,8 @@ class BulletWorld(QObject):
         self.planId= p.loadURDF("plane.urdf",basePosition=[0, 0, 0])
 
         self.cupId=p.loadURDF("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 0]),globalScaling=1)
-        self.robot=mySim.Ur10FreeHandSimMultiEffortsAuto(p,[0,0,0])
+        self.robot=mySim.Ur10FreeHnadSimAuto(p,[0,0,0])
+        # self.initFingerBendSway()
 
     def setWorldGravity(self, gravity: float = -9.8):
         self.p.setGravity(0, 0, gravity)
@@ -40,12 +40,36 @@ class BulletWorld(QObject):
 
     def isConnected(self)->bool:
         return self.p.isConnected()
+    #
+    # def initFingerBendSway(self):
+    #     """
+    #     初始化灵巧手的参数
+    #     :return:
+    #     """
+    #     fingerRange=self.robot.getFingerRange()
+    #     self.fingerBnedRangeNative=dict()
+    #     self._fingerSwayRange=dict()
+    #     tmpStr="finger"
+    #     for i in range(5):
+    #         self.fingerBnedRangeNative[tmpStr+str(i+1)]=fingerRange.get(tmpStr+str(i+1))[1:]
+    #         self._fingerSwayRange[tmpStr+str(i+1)]=fingerRange.get(tmpStr+str(i+1))[:1]
 
-    def getFingerBendRange(self)->tuple:
-        pass
+    # def setfingerSway(self,controlAngle:list=None):
+    #     #unishuai created in 2024/7/21 10:32
+    #     #description:先进行安全性检查，然后调用角度控制，将数据发送给机器人
+    #     # 我觉得这个思路还是不是特别正确，机器人的每次一控制，应该发的是所有的关节的角度才对
+    #     # 也就是说，我应当有一个变量(我认为应当定义成一个类)，然后每一次操作的时候，都应当去修改这个类的信息
+    #     if controlAngle is None:
+    #         controlAngle=[0,0,0,0,0]
 
-    def getFingerSwayRange(self)->tuple:
-        pass
+
+
+
+
+
+
+
+
 
 
 
