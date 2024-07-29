@@ -50,11 +50,15 @@ class MainWindow(QMainWindow):
         # region todo:功能绑定
         # 修改重力的微调框
         self.ui.doubleSpinBox_gravity.valueChanged.connect(self.setGravitySlot)
+        # 添加缆线的功能
+        self.ui.btn_addCable.clicked.connect(self.addCableSlot)
+        # 删除缆线的功能
+        self.ui.btn_removeCable.clicked.connect(self.removeCableSlot)
         # endregion
 
 
         #region todo:初始值设置
-        self.ui.doubleSpinBox_gravity.setValue(self.world.getWorldGravity())
+        self.ui.doubleSpinBox_gravity.setValue(self.getWorldGravity())
         #endregion
 
 
@@ -88,7 +92,16 @@ class MainWindow(QMainWindow):
         # # self.ui.label.setText(str(value))
         self.world.setWorldGravity(value)
 
+    @QtCore.Slot()
+    def addCableSlot(self):
+        self.world.addCable()
 
+    @QtCore.Slot()
+    def removeCableSlot(self):
+        self.world.removeCable()
+
+    def getWorldGravity(self):
+        return self.world.getWorldGravity()
 
 
 if __name__=="__main__":

@@ -431,14 +431,14 @@
            </layout>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="btn_addCable">
             <property name="text">
              <string>添加缆线</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="btn_removeCable">
             <property name="text">
              <string>删除缆线</string>
             </property>

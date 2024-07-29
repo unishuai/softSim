@@ -16,7 +16,7 @@ class CableSim(object):
     def __init__(self, position:Optional[List[Union[float,int]]]  = None) -> None:
         super().__init__()
         if position is None:
-            position = [0., -.3, 0.1]
+            position = [0.3, -.3, 0.1]
         self.ballIds=list()
         self.position=position
         # self.cableLen = 4
@@ -47,7 +47,7 @@ class CableSim(object):
                                        basePosition,
                                        baseOrientation
                                        )
-            # self.ballIds=
+            self.ballIds.append(linkId)
             if preLinkId != -1:
                 constraint_id = p.createConstraint(
                     parentBodyUniqueId=preLinkId,
