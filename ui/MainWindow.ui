@@ -21,7 +21,7 @@
       <item>
        <widget class="QTabWidget" name="tabWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="modelWidget">
          <attribute name="title">
@@ -403,10 +403,10 @@
                  </size>
                 </property>
                 <property name="minimum">
-                 <number>-20</number>
+                 <number>-2000</number>
                 </property>
                 <property name="maximum">
-                 <number>20</number>
+                 <number>2000</number>
                 </property>
                 <property name="orientation">
                  <enum>Qt::Orientation::Horizontal</enum>
@@ -429,6 +429,20 @@
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>添加缆线</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_2">
+            <property name="text">
+             <string>删除缆线</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer">

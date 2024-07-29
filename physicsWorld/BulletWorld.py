@@ -13,6 +13,7 @@ import time
 from PySide6.QtCore import QObject
 
 import physicsWorld.ur10FreeHandSim as mySim
+import physicsWorld.cableSim as mycableSim
 
 
 class BulletWorld(QObject):
@@ -22,16 +23,23 @@ class BulletWorld(QObject):
         self.p=p
         self.client_id = p.connect(p.GUI)  # 使用GUI模式
         self.p.setAdditionalSearchPath(pybullet_data.getDataPath())
-        self.p.setGravity(0, 0, -9.8)
+        self.gravity=-9.8
+        self.setWorldGravity(self.gravity)
 
         self.planId= p.loadURDF("plane.urdf",basePosition=[0, 0, 0])
 
         self.cupId=p.loadURDF("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 0]),globalScaling=1)
         self.robot=mySim.Ur10FreeHnadSimAuto(p,[0,0,0])
         # self.initFingerBendSway()
+        self.cable=mycableSim.CableSim()
+
 
     def setWorldGravity(self, gravity: float = -9.8):
+        self.gravity=gravity
         self.p.setGravity(0, 0, gravity)
+
+    def getWorldGravity(self):
+        return self.gravity
 
     def stepWorldSimulation(self,sleepTime:float=0.0):
         self.p.stepSimulation()

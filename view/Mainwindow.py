@@ -27,21 +27,38 @@ class MainWindow(QMainWindow):
         # todo:使用MainWindow_ui文件
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # self.initUi()
+        self._initUi()
 
 
 
 
 
-        #控件同步
-        self.ui.hSlider_gravity.valueChanged.connect(self.ui.doubleSpinBox_gravity.setValue)
-        self.ui.doubleSpinBox_gravity.valueChanged.connect(self.ui.hSlider_gravity.setValue)
-        #修改重力的微调框
-        self.ui.doubleSpinBox_gravity.valueChanged.connect(self.setGravitySlot)
+
+
 
     #初始化ui参数，比如滑块滑动距离这些，
     # 应该还是从物理世界读取具体的参数信息
-    # def _initUi(self):
+    def _initUi(self):
+        # region todo:控件同步
+        self.ui.hSlider_gravity.valueChanged.connect(
+            lambda value: self.ui.doubleSpinBox_gravity.setValue(value/100)
+        )
+        self.ui.doubleSpinBox_gravity.valueChanged.connect(
+            lambda value: self.ui.hSlider_gravity.setValue(value*100))
+        #endregion
+
+        # region todo:功能绑定
+        # 修改重力的微调框
+        self.ui.doubleSpinBox_gravity.valueChanged.connect(self.setGravitySlot)
+        # endregion
+
+
+        #region todo:初始值设置
+        self.ui.doubleSpinBox_gravity.setValue(self.world.getWorldGravity())
+        #endregion
+
+
+
 
 
     # 这个我准备用来初始化物理世界
