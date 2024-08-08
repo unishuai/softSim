@@ -33,10 +33,39 @@ jointID:40 ,jointName:fi5-4joint ,jointType:JOINT_REVOLUTE
 ---
 ### 开发记录
 2024年6月29日18:21:17  前一个模型一直存在问题，找学姐重新要了一个模型，pybullet可以读取成功
+
 2024年6月30日15:09:34  将指抓和手臂组合在一起
+
 2024年7月7日10:39:37   新增了一个多末端控制器的仿真类，实现指抓可以碰到待抓取物体的要求
+
 2024年7月7日14:56:41   如果多末端控制器的话，我感觉一般般不太行
+
 2024年7月29日15:04:31  添加了缆线、添加了Qt控制界面并实现了灵巧手弯曲控制和旋转控制
-2024年8月7日21:41:06   重新用添加了缆线，将点对点的约束修改为fix，然后尝试对缆线进行抓取，由于测试尝试的版本太多
+
+2024年8月5日21:41:06   重新用添加了缆线，将点对点的约束修改为fix，然后尝试对缆线进行抓取，由于测试尝试的版本太多
+
+2024年8月8日10:56:57   添加了桌子和凳子，然后尝试编写抓取方式对缆线进行抓取
+
+2024年8月9日19:57:44
 
 
+
+---
+
+### 状态信息
+
+手指捏东西闭合时候的状态
+
+<img src="https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/softSim202408082000575.png" alt="image-20240808200029481" style="zoom:50%;" />
+
+全屏效果
+
+<img src="https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/softSim202408082001507.png" alt="image-20240808200107414" style="zoom:50%;" />
+
+此时的关节（第一部分）
+
+![image-20240808194559416](https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/softSim202408081945463.png)
+
+*第二部分*
+
+![image-20240808194627001](https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/softSim202408081946037.png)

@@ -31,7 +31,7 @@ class CableSim(object):
         if len(self.ballIds)>=1:
             return
 
-        baseAngle = [-90, 0, 0]
+        baseAngle = [math.radians(90),math.radians(0), math.radians(0)]
 
         # 缆线的质量
         mass = 0.01

@@ -39,7 +39,7 @@ if __name__ == "__main__":
     #     ObjectId=p.loadURDF("block.urdf", np.array([random.uniform(-0.6, 0.6), random.uniform(-0.5, -0.1), 0]),globalScaling=1.5)
     # robot=mySim.Ur10FreeHnadSimAuto(p,[0,0,0])
     # ObjectId = p.loadURDF("block.urdf", np.array([0.3, -0.6, 0.005]),globalScaling=1.5)
-    ObjectId = p.loadURDF("otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 0]),globalScaling=1)
+    ObjectId = p.loadURDF("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 0]), globalScaling=1)
     robot=mySim.Ur10FreeHnadSimAuto(p,[0,0,0])
 
 
