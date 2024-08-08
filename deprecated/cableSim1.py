@@ -5,7 +5,7 @@
 # ============================================
 from typing import Optional, List, Union
 
-import pybullet as pl
+import pybullet as p
 import time
 import math
 import pybullet_data
@@ -13,15 +13,14 @@ import pybullet_data
 
 class CableSim(object):
 
-    def __init__(self, bullet_client: pl , position:Optional[List[Union[float, int]]]  = None) -> None:
+    def __init__(self, position:Optional[List[Union[float,int]]]  = None) -> None:
         super().__init__()
         if position is None:
             position = [0.3, -.3, 0.1]
-        self.p=bullet_client
         self.ballIds=list()
         self.position=position
         # self.cableLen = 4
-        self.ballNum = 36+45+15
+        self.ballNum = 36+45
         self.height = 0.01
         # self.sphereRadius = self.cableLen / self.ballNum - self.height
         self.sphereRadius=0.01
@@ -30,76 +29,44 @@ class CableSim(object):
     def loadCable(self):
         if len(self.ballIds)>=1:
             return
-
+        preLinkId = -1
         baseAngle = [-90, 0, 0]
-
-        # 缆线的质量
-        mass = 0.01
-        # 可视化的数据id，-1就是默认颜色，不自定义可视化
-        # visualShapeId = -1
-        colBallId = self.p.createCollisionShape(self.p.GEOM_CYLINDER, radius=self.sphereRadius, height=self.height)
-        visualShapeId = self.p.createVisualShape(self.p.GEOM_CYLINDER, radius=self.sphereRadius, length=self.height * 1.8, rgbaColor=[1, 0, 0, 1])
-        endpointsVisualShapeId = self.p.createVisualShape(self.p.GEOM_CYLINDER, radius=self.sphereRadius, length=self.height, rgbaColor=[1, 0, 0, 1])
-        useMaximalCoordinates = True
-
-        basePosition = [0 + self.position[0], self.height + self.position[1], 1 + self.position[2]]
-        baseOrientation = self.p.getQuaternionFromEuler(baseAngle)
-
-        linkMasses = list()
-        linkCollisionShapeIndices = list()
-        linkVisualShapeIndices = list()
-        linkPositions = list()
-        linkOrientations = list()
-        linkInertialFramePositions = list()
-        linkInertialFrameOrientations = list()
-        linkParentIndices = list()
-        linkJointTypes = list()
-        linkJointAxis = list()
-
         for i in range(self.ballNum):
-            linkMasses.append(mass)
-            linkCollisionShapeIndices.append(colBallId)
-            if i == 0 or i == self.ballNum - 1:
-                linkVisualShapeIndices.append(endpointsVisualShapeId)
-            else:
-                linkVisualShapeIndices.append(visualShapeId)
-            linkPositions.append([0, 0, self.height])
-            linkOrientations.append(self.p.getQuaternionFromEuler([0, 0, 0]))
-            linkInertialFramePositions.append([0, 0, 0])
-            linkInertialFrameOrientations.append(self.p.getQuaternionFromEuler([0, 0, 0]))
-            linkParentIndices.append(i)
-            linkJointTypes.append(self.p.JOINT_FIXED)
-            linkJointAxis.append([0, 0, 0])
+            colBallId = p.createCollisionShape(p.GEOM_CAPSULE,
+                                               radius=self.sphereRadius, height=self.height)
+            # 缆线的质量
+            mass = 1
+            # 可视化的数据id，-1就是默认颜色，不自定义可视化
+            visualShapeId = -1
+            basePosition = [0 + self.position[0], i * self.sphereRadius * 2 + i * self.height + self.position[1],
+                            self.position[2]]
+            baseOrientation = p.getQuaternionFromEuler(baseAngle)
+            linkId = p.createMultiBody(mass,
+                                       colBallId,
+                                       visualShapeId,
+                                       basePosition,
+                                       baseOrientation
+                                       )
+            self.ballIds.append(linkId)
+            if preLinkId != -1:
+                constraint_id = p.createConstraint(
+                    parentBodyUniqueId=preLinkId,
+                    parentLinkIndex=-1,
+                    childBodyUniqueId=linkId,
+                    childLinkIndex=-1,
+                    jointType=p.JOINT_POINT2POINT,
+                    jointAxis=[0, 0, 0],
+                    parentFramePosition=[0, 0, self.height / 2 + self.sphereRadius],
+                    childFramePosition=(0, 0, -self.height / 2 - self.sphereRadius)
+                )
 
-        ballId=self.p.createMultiBody(
-            baseMass=mass,
-            baseCollisionShapeIndex=colBallId,
-            baseVisualShapeIndex=endpointsVisualShapeId,
-            basePosition=basePosition,
-            baseOrientation=baseOrientation,
-
-            linkMasses=linkMasses,
-            linkCollisionShapeIndices=linkCollisionShapeIndices,
-            linkVisualShapeIndices=linkVisualShapeIndices,
-            linkPositions=linkPositions,
-            linkOrientations=linkOrientations,
-            linkInertialFramePositions=linkInertialFramePositions,
-            linkInertialFrameOrientations=linkInertialFrameOrientations,
-            linkParentIndices=linkParentIndices,
-            linkJointTypes=linkJointTypes,
-            linkJointAxis=linkJointAxis,
-            useMaximalCoordinates=useMaximalCoordinates
-
-        )
-        self.ballIds.append(ballId)
-
-
-
-
+                # 设置约束的最大力
+                p.changeConstraint(constraint_id, maxForce=100000000000000)
+            preLinkId = linkId
 
     def removeCable(self):
         for ballId in self.ballIds:
-            self.p.removeBody(ballId)
+            p.removeBody(ballId)
         self.ballIds.clear()
 
 # p.connect(p.GUI)

@@ -14,6 +14,10 @@
   <property name="windowTitle">
    <string>软体仿真建模软件</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../resource/img.qrc">
+    <normaloff>:/Satoru02.jpg</normaloff>:/Satoru02.jpg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
@@ -43,16 +47,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="spinBox_bend_finger1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="2">
                 <widget class="QSlider" name="hSlider_bend_finger1">
                  <property name="minimumSize">
@@ -60,6 +54,9 @@
                    <width>60</width>
                    <height>0</height>
                   </size>
+                 </property>
+                 <property name="maximum">
+                  <number>1000</number>
                  </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
@@ -69,17 +66,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_3">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QSpinBox" name="spinBox_bend_finger2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指2</string>
                  </property>
                 </widget>
                </item>
@@ -91,6 +78,9 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -99,17 +89,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_bend_finger3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指3</string>
                  </property>
                 </widget>
                </item>
@@ -121,6 +101,9 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -129,17 +112,7 @@
                <item row="3" column="0">
                 <widget class="QLabel" name="label_5">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QSpinBox" name="spinBox_bend_finger4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指4</string>
                  </property>
                 </widget>
                </item>
@@ -151,6 +124,9 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -159,17 +135,7 @@
                <item row="4" column="0">
                 <widget class="QLabel" name="label_6">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QSpinBox" name="spinBox_bend_finger5">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指5</string>
                  </property>
                 </widget>
                </item>
@@ -181,8 +147,76 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="maximum">
+                  <number>1000</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_bend_finger1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_bend_finger2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_bend_finger3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_bend_finger4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_bend_finger5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximum">
+                  <double>10.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -206,16 +240,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="spinBox_sway_finger1">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="2">
                 <widget class="QSlider" name="hSlider_sway_finger1">
                  <property name="minimumSize">
@@ -223,6 +247,12 @@
                    <width>60</width>
                    <height>0</height>
                   </size>
+                 </property>
+                 <property name="minimum">
+                  <number>-500</number>
+                 </property>
+                 <property name="maximum">
+                  <number>500</number>
                  </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
@@ -232,17 +262,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_8">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QSpinBox" name="spinBox_sway_finger2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指2</string>
                  </property>
                 </widget>
                </item>
@@ -254,6 +274,12 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="minimum">
+                  <number>-500</number>
+                 </property>
+                 <property name="maximum">
+                  <number>500</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -262,17 +288,7 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_9">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBox_sway_finger3">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指3</string>
                  </property>
                 </widget>
                </item>
@@ -284,6 +300,12 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="minimum">
+                  <number>-500</number>
+                 </property>
+                 <property name="maximum">
+                  <number>500</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -292,17 +314,7 @@
                <item row="3" column="0">
                 <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <widget class="QSpinBox" name="spinBox_sway_finger4">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指4</string>
                  </property>
                 </widget>
                </item>
@@ -314,6 +326,15 @@
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="minimum">
+                  <number>-500</number>
+                 </property>
+                 <property name="maximum">
+                  <number>500</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -322,30 +343,109 @@
                <item row="4" column="0">
                 <widget class="QLabel" name="label_11">
                  <property name="text">
-                  <string>手指1</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QSpinBox" name="spinBox_sway_finger5">
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>0</height>
-                  </size>
+                  <string>手指5</string>
                  </property>
                 </widget>
                </item>
                <item row="4" column="2">
-                <widget class="QSlider" name="hSlider_gravity_11">
+                <widget class="QSlider" name="hSlider_sway_finger5">
                  <property name="minimumSize">
                   <size>
                    <width>60</width>
                    <height>0</height>
                   </size>
                  </property>
+                 <property name="minimum">
+                  <number>-500</number>
+                 </property>
+                 <property name="maximum">
+                  <number>500</number>
+                 </property>
+                 <property name="value">
+                  <number>0</number>
+                 </property>
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_sway_finger1">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <double>-5.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_sway_finger2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <double>-5.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_sway_finger3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <double>-5.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_sway_finger4">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <double>-5.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QDoubleSpinBox" name="dSpinBox_sway_finger5">
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="minimum">
+                  <double>-5.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>5.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -441,6 +541,20 @@
            <widget class="QPushButton" name="btn_removeCable">
             <property name="text">
              <string>删除缆线</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_startgraspSim">
+            <property name="text">
+             <string>开始抓取仿真</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_stopGraspSim">
+            <property name="text">
+             <string>停止抓取仿真</string>
             </property>
            </widget>
           </item>

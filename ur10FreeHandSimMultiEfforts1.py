@@ -25,6 +25,7 @@ class Ur10FreeHandSim(object):
         # 初始的位姿
         self.offset = offset
 
+
         # 机械臂的自由度
         self.arm_num_dofs = 6
         # 机械臂的初始位置_6个自由度控制
