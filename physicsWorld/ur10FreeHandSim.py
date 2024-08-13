@@ -41,6 +41,14 @@ class Ur10FreeHandSim(object):
                                   2.090, -0.132, 1.744, 1.505
                                   ]
 
+        # 这个是我做捏动作时候的位姿
+        self.hand_pinch_poses = [0.639, 1.430, 0.707, 0.000,
+                                 0.573, 1.705, 0.698, 0.000,
+                                 1.047, 1.606, 0.606, 0.000,
+                                 1.047, 1.700, 0.707, 0.395,
+                                 0.715, -0.705, 0.854, 0.000
+                                 ]
+
         # todo:读取urdf 文件
         # 加载地面
         # self.p.loadURDF("plane.urdf")
@@ -165,7 +173,8 @@ class Ur10FreeHandSim(object):
                                          joint_poses[i],
                                          # force=self.joints[joint_id].maxForce,
                                          force=100,
-                                         maxVelocity=self.joints[joint_id].maxVelocity)
+                                         maxVelocity=self.joints[joint_id].maxVelocity
+                                         )
 
     # def setArmPos(self, pos, orn=None):
     #     '''
@@ -193,7 +202,7 @@ class Ur10FreeHandSim(object):
                                                        maxNumIterations=20)
         return jointPoses
 
-    def step(self, pos, angle, gripper_w, g_height=0.275):
+    def step(self, pos, angle, gripper_w, g_bias):
         pass
 
     def reset(self):
@@ -260,6 +269,111 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
             self.state_t = 0
             self.state = self.states[self.cur_state]
 
+    # region 这个是抓杯子的step,已经被我抛弃了
+    # def step(self, posTmp, angle, gripper_w, g_bias: List = None):
+    #     """
+    #     我觉的step还是得在simAuto,因为本身的sim其实并不参与多少动作，应当降低耦合度才是
+    #     :param gripper_w:
+    #     :param pos: 方位
+    #     :param angle: 角度
+    #     :param g_height:偏置值
+    #     :return:
+    #     """
+    #     if g_bias == None:
+    #         g_bias = [0, -0.19, 0.15]
+    #     pos = [posTmp[x] + g_bias[x] for x in range(len(posTmp))]
+    #
+    #
+    #     # 更新
+    #     self.update_state()
+    #     # print("--------------------")
+    #     # print("self.state_t{0}.self.cur_state{1}".format(self.state_t, self.cur_state))
+    #
+    #     open_length = gripper_w
+    #
+    #     # self.state += 1
+    #
+    #     # pos[2] += 0.048
+    #     # pos[2] += g_height
+    #     if self.state == -1:
+    #         pass
+    #
+    #     elif self.state == 0:
+    #         # 到达抓取点的正上方
+    #
+    #         # pos[2] = 0.5
+    #         pos[2] += 0.2
+    #         # euler = [0,0, angle + math.pi / 2]
+    #         euler = angle
+    #         orn = self.p.getQuaternionFromEuler(euler)  # 机械手方向
+    #         jointPoses = self.calcJointLocation(pos, orn)
+    #
+    #         self.moveArm(jointPoses)
+    #         # print(f"指抓需要张开的长度{open_length}")
+    #         forth_list = [x / 4 for x in self.hand_closed_poses]
+    #         self.controlHand(forth_list)
+    #         return False
+    #
+    #     elif self.state == 1:
+    #         # 在抓取点的正上方做一个下降的操作
+    #         pos[2] += 0.05
+    #         orn = self.p.getQuaternionFromEuler(angle)  # 机械手方向
+    #         jointPoses = self.calcJointLocation(pos, orn)
+    #         self.moveArm(jointPoses)
+    #
+    #         return False
+    #
+    #     elif self.state == 2:
+    #         # 这里就到达了预定的抓取位置，机械臂继续下落后，手应该和点重合
+    #         orn = self.p.getQuaternionFromEuler(angle)  # 机械手方向
+    #         jointPoses = self.calcJointLocation(pos, orn)
+    #         # In fact, I abandoned this parameter -->(myMaxVelocity)
+    #         # 因为我读取urdf的文件的时候有，暂时先不删除
+    #         self.moveArm(jointPoses)
+    #         return False
+    #
+    #     elif self.state == 3:
+    #         # 这里就做了一个抓取的操作
+    #         # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #         # self.move_gripper(0)
+    #         thirds_list = [x / 2 for x in self.hand_closed_poses]
+    #         self.controlHand(thirds_list)
+    #         return False
+    #
+    #     elif self.state == 4:
+    #         # 这里手指头完全闭合
+    #         # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    #         # self.move_gripper(0)
+    #         self.controlHand(self.hand_closed_poses)
+    #         return False
+    #
+    #     elif self.state == 5:
+    #         # print('物体上方(预抓取位置)')
+    #         pos[2] += 0.05
+    #         orn = self.p.getQuaternionFromEuler(angle)  # 机械手方向
+    #         jointPoses = self.calcJointLocation(pos, orn)
+    #         self.moveArm(jointPoses)
+    #
+    #         return False
+    #
+    #     elif self.state == 6:
+    #         # print('物体上方')
+    #         # pos[2] = 0.3
+    #         pos[2] += 0.2
+    #
+    #         orn = self.p.getQuaternionFromEuler(angle)  # 机械手方向
+    #         jointPoses = self.calcJointLocation(pos, orn)
+    #         self.moveArm(jointPoses)
+    #
+    #         return False
+    #
+    #
+    #     elif self.state == 12:
+    #
+    #         self.reset()  # 重置状态
+    #         return True
+    # endregion
+
     def step(self, posTmp, angle, gripper_w, g_bias: List = None):
         """
         我觉的step还是得在simAuto,因为本身的sim其实并不参与多少动作，应当降低耦合度才是
@@ -270,9 +384,8 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
         :return:
         """
         if g_bias == None:
-            g_bias = [0, -0.19, 0.15]
+            g_bias = [0, -0.19, 0.175]
         pos = [posTmp[x] + g_bias[x] for x in range(len(posTmp))]
-
 
         # 更新
         self.update_state()
@@ -300,7 +413,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
 
             self.moveArm(jointPoses)
             # print(f"指抓需要张开的长度{open_length}")
-            forth_list = [x / 4 for x in self.hand_closed_poses]
+            forth_list = [x / 4 for x in self.hand_pinch_poses]
             self.controlHand(forth_list)
             return False
 
@@ -326,7 +439,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
             # 这里就做了一个抓取的操作
             # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             # self.move_gripper(0)
-            thirds_list = [x / 2 for x in self.hand_closed_poses]
+            thirds_list = [x / 2 for x in self.hand_pinch_poses]
             self.controlHand(thirds_list)
             return False
 
@@ -334,7 +447,7 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
             # 这里手指头完全闭合
             # 需要对手指进行修改!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             # self.move_gripper(0)
-            self.controlHand(self.hand_closed_poses)
+            self.controlHand(self.hand_pinch_poses)
             return False
 
         elif self.state == 5:
@@ -359,8 +472,6 @@ class Ur10FreeHnadSimAuto(Ur10FreeHandSim):
 
 
         elif self.state == 12:
-
-            # print("------------")
 
             self.reset()  # 重置状态
             return True

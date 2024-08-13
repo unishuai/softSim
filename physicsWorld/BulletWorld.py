@@ -11,6 +11,7 @@ import pybullet_data
 import time
 # v1
 # import ur10FreeHandSim as mySim
+from PySide6 import QtCore
 from PySide6.QtCore import QObject
 
 import physicsWorld.ur10FreeHandSim as mySim
@@ -23,13 +24,13 @@ class BulletWorld(QObject):
         super().__init__()
 
 
+
         self.p = p
-        print(pybullet_data.getDataPath())
+        # print(pybullet_data.getDataPath())
         self.client_id = self.p.connect(self.p.GUI)  # 使用GUI模式
         self.p.setAdditionalSearchPath(pybullet_data.getDataPath())
         self.gravity = -9.8
         self._simStatus=False
-
         self.setWorldGravity(self.gravity)
 
         self.planId = self.p.loadURDF("plane.urdf", basePosition=[0, 0, 0])
@@ -47,6 +48,17 @@ class BulletWorld(QObject):
         # self.cable=mycableSim.CableSim()
         self.cables: List[mycableSim.CableSim] = list()
 
+        # region todo:创建缆线的参数
+        # 摩擦系数
+        self._cableFriction = 0.7
+        # 缆线长度
+        self._cableLen = 0.64
+        # 缆线直径
+        self._cableDiameter = 0.02
+        # 缆线质量
+        self._cableMass = 0.0016
+        # endregion
+
     def setWorldGravity(self, gravity: float = -9.8):
         self.gravity = gravity
         self.p.setGravity(0, 0, gravity)
@@ -54,6 +66,7 @@ class BulletWorld(QObject):
     def getWorldGravity(self):
         return self.gravity
 
+    @QtCore.Slot()
     def stepWorldSimulation(self, sleepTime: float = 0.0):
         self.p.stepSimulation()
 
@@ -61,19 +74,18 @@ class BulletWorld(QObject):
             if len(self.cables) == 0:
                 self.startSim = False
                 return
-            time.sleep(0.08)
+            # time.sleep(0.08)
             #持续进行仿真抓取
             # print("进入了stepWorldSimulation 仿真里面")
 
             # print(f"获取缆线的数据objectPos={objectPos},objectOrn={objectOrn}")
-            for i in range(30):
-                if self.robot.step(self.objectPos, [-2.0,3.14,-3.14], 2) is True:
-                    # print("这里说明step为True成功进入")
-                    # for i in range(100):
-                    #     self.p.stepSimulation()
-                        # time.sleep(0.001)
-                    self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
-
+            # for i in range(30):
+            if self.robot.step(self.objectPos, [-2.0, 3.14, -3.14], 2) is True:
+                # print("这里说明step为True成功进入")
+                # for i in range(100):
+                #     self.p.stepSimulation()
+                # time.sleep(0.001)
+                self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
 
         if sleepTime > 0.0000001:
             time.sleep(sleepTime)
@@ -161,3 +173,59 @@ class BulletWorld(QObject):
 
     def stopGraspSim(self):
         self.startSim=False
+
+
+    @property
+    def cableFriction(self):
+        return self._cableFriction
+
+    @cableFriction.setter
+    def cableFriction(self, friction :float):
+        if float(friction) <= 0:
+            raise ValueError("摩擦系数应当为正数")
+        else:
+            self._cableFriction = friction
+
+    @property
+    def cabLen(self):
+        return self._cableLen
+
+    @cabLen.setter
+    def cabLen(self, cLen:float):
+        if float(cLen) <= 0:
+            raise ValueError("缆线长度应当为正数")
+        else:
+            self._cableLen = cLen
+
+    @property
+    def cableDiameter(self):
+        return self._cableDiameter
+
+    @cableDiameter.setter
+    def cableDiameter(self, diameter:float):
+        if float(diameter) <= 0:
+            raise ValueError("缆线直径应当为正数")
+        else:
+            self._cableDiameter = diameter
+
+    @property
+    def cableRadius(self):
+        return self._cableDiameter / 2
+
+    @cableRadius.setter
+    def cableRadius(self, radius:float):
+        if float(radius) <= 0:
+            raise ValueError("缆线半径应当为正数")
+        else:
+            self._cableDiameter = radius * 2
+
+    @property
+    def cableMass(self):
+        return self._cableMass
+
+    @cableMass.setter
+    def cableMass(self, mass:float):
+        if float(mass) < 0:
+            raise ValueError("缆线质量应当为非负数")
+        else:
+            self._cableMass = mass

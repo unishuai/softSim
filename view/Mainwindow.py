@@ -12,6 +12,8 @@ from PySide6.QtCore import QFile, QThread
 
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QPlainTextEdit, QMessageBox
+from PySide6.QtGui import QValidator,QDoubleValidator
+
 from ui.MainWindow_ui import Ui_MainWindow
 from physicsWorld.BulletWorld import BulletWorld
 from qt_material import apply_stylesheet
@@ -153,17 +155,39 @@ class MainWindow(QMainWindow):
 
         # endregion
 
+
+
+
         # region todo:初始值设置
         self.ui.doubleSpinBox_gravity.setValue(self.getWorldGravity())
         # endregion
 
+        # region todo:缆线物理属性的设置显示
+        # 这里我先对每一个显示参数设置一个验证器
+        friValidator=QDoubleValidator(0,1,3)
+        self.ui.le_cableFriction.setValidator(friValidator)
+        lenValidator=QDoubleValidator(0,1,3)
+        self.ui.le_cableLen.setValidator(lenValidator)
+        diameterValidator=QDoubleValidator(0,1,3)
+        self.ui.le_cableDiameter.setValidator(diameterValidator)
+        massValidator=QDoubleValidator(0,1,3)
+        self.ui.le_cableMass.setValidator(massValidator)
+
+        # 缆线这里有4个物理参数，同一使用按钮进行导入
+        self.ui.btn_applyCableParam.clicked.connect(self.changeCableParamSlot)
+
+        # endregion
+
     # 这个我准备用来初始化物理世界
     def _initWorld(self):
+        self.bulletThread=QThread(self)
+        # #把物理世界移动过去
+        # self.world.moveToThread(self.bulletThread)
         # 创建定时器并绑定时间间隔
         self.timer = QTimer()
         # 这里的话，需要将函数的本身而不是函数的结果添加到绑定的计时器中
         self.timer.timeout.connect(self.updateWorld)
-        self.timer.start(1000.0 / 240.0)
+        self.timer.start(0.03)
 
     def updateWorld(self):
         # 更新世界之前先检查是否处于连接状态，当pybullet断开时，Qt界面也自动断开
@@ -224,6 +248,85 @@ class MainWindow(QMainWindow):
 
     def getWorldGravity(self):
         return self.world.getWorldGravity()
+
+    @QtCore.Slot()
+    def changeCableParamSlot(self):
+        """
+        每一次点击按钮，就可以对缆线的四个参数进行检查
+        然后一次进行判断，去掉不合适的
+        先判断是否有错误，如果数据有错误就提示并退出
+        如果没有错误，就依次更新输入过值的数据
+        :return:
+        """
+        #设置参数的字符串数据
+        cableFriction=self.ui.le_cableFriction.text().strip()
+        cableLen=self.ui.le_cableLen.text().strip()
+        cableDiameter=self.ui.le_cableDiameter.text().strip()
+        cableMass=self.ui.le_cableMass.text().strip()
+        #然后进行判断，是否存在不为空，且无法转化的数据
+        if cableFriction :
+            try:
+                float(cableFriction)
+            except ValueError:
+                QMessageBox.information(self,'信息',f"摩擦系数数据值：{cableFriction},转化失败")
+                return
+
+        if cableLen:
+            try:
+                float(cableLen)
+            except ValueError:
+                QMessageBox.information(self,'信息',f"缆线长度数据值：{cableLen},转化失败")
+                return
+
+        if cableDiameter:
+            try:
+                float(cableDiameter)
+            except ValueError:
+                QMessageBox.information(self,'信息',f"缆线直径数据值：{cableDiameter},转化失败")
+                return
+
+        if cableMass:
+            try:
+                float(cableMass)
+            except ValueError:
+                QMessageBox.information(self,'信息',f"缆线质量数据值：{cableMass},转化失败")
+                return
+
+        #开始更新每一个缆线的参数
+        if cableFriction:
+            self.setLeCableFriction(cableFriction)
+        if cableLen:
+            self.setLeCableLen(cableLen)
+        if cableDiameter:
+            self.setLeCableDiameter(cableDiameter)
+        if cableMass:
+            self.setLeCableMass(cableMass)
+
+        # self.world.cableLen=cableLen
+        # self.world.cableDiameter=cableDiameter
+        # self.world.cableMass=cableMass
+
+    #这是通过界面更新缆线函数的时候，需要调用的函数
+    def setLeCableFriction(self,cableFriction):
+        self.world.cableFriction = cableFriction
+        self.ui.le_cableFriction.clear()
+        self.ui.le_cableFriction.setPlaceholderText(cableFriction)
+
+    def setLeCableLen(self,cableLen):
+        self.world.cableLen=cableLen
+        self.ui.le_cableLen.clear()
+        self.ui.le_cableLen.setPlaceholderText(cableLen)
+
+    def setLeCableDiameter(self,cableDiameter):
+        self.world.cableDiameter=cableDiameter
+        self.ui.le_cableDiameter.clear()
+        self.ui.le_cableDiameter.setPlaceholderText(cableDiameter)
+
+    def setLeCableMass(self,cableMass):
+        self.world.cableMass=cableMass
+        self.ui.le_cableMass.clear()
+        self.ui.le_cableMass.setPlaceholderText(cableMass)
+
 
 
 

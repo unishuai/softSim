@@ -49,7 +49,7 @@ arm_rest_poses = [-1.5690622952052096, -1.5446774605904932, 1.343946009733127, -
 # todo:读取urdf 文件
 # 加载地面
 p.loadURDF("plane.urdf")
-robotId = p.loadURDF(r"freehand_description/urdf/freehand_description.urdf", basePosition=[0, 0, 0], useFixedBase=1)
+robotId = p.loadURDF(r"../freehand_description/urdf/freehand_description.urdf", basePosition=[0, 0, 0], useFixedBase=1)
 if robotId < 0:
     # 还是这种抛出异常这样子写的爽一些
     raise ValueError("文件读取异常,检查一下是不是路径或者其他的问题")
@@ -108,6 +108,10 @@ arm_joint_ranges = [info.upperLimit - info.lowerLimit for info in joints if info
 
 # todo:初始化位姿，后续就应该是编写相应的指抓函数了
 moveArm(arm_rest_poses)
+
+
+# for i in range(numJoints+1):
+#     print(f"LinkState{i}",p.getLinkState(robotId,i))
 
 
 for i in range(100000):
