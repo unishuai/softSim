@@ -38,6 +38,9 @@ class MainWindow(QMainWindow):
         self.swaySigList = [0, 0, 0, 0, 0]
         # 初始化UI的控件
         self._initUi()
+        #初始化部分UI的参数，这里的参数需要和世界里面的参数保持一致
+        self._initUiParam()
+
 
     # 初始化ui参数，比如滑块滑动距离这些，
     # 应该还是从物理世界读取具体的参数信息
@@ -177,6 +180,14 @@ class MainWindow(QMainWindow):
         self.ui.btn_applyCableParam.clicked.connect(self.changeCableParamSlot)
 
         # endregion
+
+    def _initUiParam(self):
+        self.ui.le_cableFriction.setPlaceholderText(format(self.world.cableFriction))
+        self.ui.le_cableLen.setPlaceholderText(format(self.world.cableLen))
+        self.ui.le_cableDiameter.setPlaceholderText(format(self.world.cableDiameter))
+        self.ui.le_cableMass.setPlaceholderText(format(self.world.cableMass))
+
+
 
     # 这个我准备用来初始化物理世界
     def _initWorld(self):
@@ -329,8 +340,6 @@ class MainWindow(QMainWindow):
 
 
 
-
-
 def run():
     app = QApplication([])
     apply_stylesheet(app, theme='dark_teal.xml')
@@ -340,7 +349,7 @@ def run():
 
 if __name__ == "__main__":
     app = QApplication([])
-    apply_stylesheet(app, theme='dark_teal.xml')
+    apply_stylesheet(app, theme='light_purple.xml')
     mainWindow = MainWindow(BulletWorld())
     mainWindow.show()
     sys.exit(app.exec())

@@ -85,6 +85,19 @@ class BulletWorld(QObject):
                 # for i in range(100):
                 #     self.p.stepSimulation()
                 # time.sleep(0.001)
+                # todo: 获取每一次抓取的信息
+                contact_points=self.p.getContactPoints(self.robot.robotId,self.cables[0].ballIds[0])
+                # 遍历接触点信息，提取法向力和摩擦力
+                for point in contact_points:
+                    normal_force = point[9]  # 正压力（法向力）
+                    lateral_friction1 = point[10]  # 第一个侧向摩擦力
+                    lateral_friction2 = point[12]  # 第二个侧向摩擦力
+
+                    print(f"正压力 (normal force): {normal_force}")
+                    print(f"侧向摩擦力1 (lateral friction1): {lateral_friction1}")
+                    print(f"侧向摩擦力2 (lateral friction2): {lateral_friction2}")
+
+
                 self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
 
         if sleepTime > 0.0000001:
@@ -116,7 +129,12 @@ class BulletWorld(QObject):
     #         controlAngle=[0,0,0,0,0]
 
     def addCable(self):
-        self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1]))
+        #这个是旧的版本，使用默认的参数
+        # self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1]))
+        # self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1]))
+
+        #这个是新版本的，更具Qt窗口添加参数
+        self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1],cabFri=self._cableFriction,cabLen=self._cableLen,cabDiameter=self._cableDiameter,cabMass=self._cableMass))
         # print(f"robotId={self.robot.robotId}, cableId={self.cables[-1].ballIds[-1]},cablesLen={len(self.cables)}")
         self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
 
@@ -176,7 +194,7 @@ class BulletWorld(QObject):
 
 
     @property
-    def cableFriction(self):
+    def cableFriction(self)->float:
         return self._cableFriction
 
     @cableFriction.setter
@@ -187,18 +205,18 @@ class BulletWorld(QObject):
             self._cableFriction = friction
 
     @property
-    def cabLen(self):
+    def cableLen(self)->float:
         return self._cableLen
 
-    @cabLen.setter
-    def cabLen(self, cLen:float):
+    @cableLen.setter
+    def cableLen(self, cLen:float):
         if float(cLen) <= 0:
             raise ValueError("缆线长度应当为正数")
         else:
             self._cableLen = cLen
 
     @property
-    def cableDiameter(self):
+    def cableDiameter(self)->float:
         return self._cableDiameter
 
     @cableDiameter.setter
@@ -209,7 +227,7 @@ class BulletWorld(QObject):
             self._cableDiameter = diameter
 
     @property
-    def cableRadius(self):
+    def cableRadius(self)->float:
         return self._cableDiameter / 2
 
     @cableRadius.setter
@@ -220,7 +238,7 @@ class BulletWorld(QObject):
             self._cableDiameter = radius * 2
 
     @property
-    def cableMass(self):
+    def cableMass(self)->float:
         return self._cableMass
 
     @cableMass.setter

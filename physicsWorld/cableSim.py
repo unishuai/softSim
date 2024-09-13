@@ -16,7 +16,8 @@ import pybullet_data
 
 class CableSim(object):
 
-    def __init__(self, bullet_client: p = p, position: Optional[List[Union[float, int]]] = None) -> None:
+    def __init__(self, bullet_client: p = p, position: Optional[List[Union[float, int]]] = None, cabFri: float = 0.7,
+                 cabLen: float = 0.64, cabDiameter: float = 0.02, cabMass: float = 0.0016) -> None:
         super().__init__()
         if position is None:
             position = [0.3, -.3, 0.1]
@@ -27,20 +28,22 @@ class CableSim(object):
         self.position = position
         # 添加缆线四个参数，通过函数对外暴露
         # 摩擦系数
-        self._cableFriction = 0.7
+        self._cableFriction: float = cabFri
         # 缆线长度
-        self._cableLen = 0.64
+        self._cableLen: float = cabLen
         # 缆线直径
-        self._cableDiameter = 0.02
+        self._cableDiameter: float = float(cabDiameter)
         # 缆线质量
-        self._cableMass = 0.0016
+        self._cableMass: float = cabMass
 
-        # self.cableLen = 4
-        self.ballNum = (36 + 45 + 15) // 6
         # self.height = 0.01
-        self.height = 0.04
+        self.height: float = 0.04
+        # self.ballNum = (36 + 45 + 15) // 6
+        self.ballNum: int = int(self.cabLen / self.height)
+
         # self.sphereRadius = self.cableLen / self.ballNum - self.height
-        self.sphereRadius = 0.01
+        # self.sphereRadius = 0.01
+        self.sphereRadius = self.cableRadius
         self.loadCable()
 
     def loadCable(self):
@@ -50,14 +53,14 @@ class CableSim(object):
         baseAngle = [math.radians(90), math.radians(0), math.radians(0)]
 
         # 缆线的质量
-        mass = 0.0001
+        # mass = 0.0001
+        mass = self.cableMass / self.ballNum
         # 可视化的数据id，-1就是默认颜色，不自定义可视化
         # visualShapeId = -1
         colBallId = self.p.createCollisionShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius, height=self.height)
         visualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,
                                                  length=self.height * 1.8, rgbaColor=[1, 0, 0, 1])
-        endpointsVisualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,
-                                                          length=self.height, rgbaColor=[1, 0, 0, 1])
+        endpointsVisualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,length=self.height, rgbaColor=[1, 0, 0, 1])
         useMaximalCoordinates = True
 
         basePosition = [0 + self.position[0], self.height + self.position[1], self.sphereRadius + self.position[2]]
@@ -133,60 +136,61 @@ class CableSim(object):
         return self.p.getBasePositionAndOrientation(self.ballIds[0])
 
     @property
-    def cableFriction(self):
+    def cableFriction(self)-> float:
         return self._cableFriction
 
     @cableFriction.setter
-    def cableFriction(self, friction):
+    def cableFriction(self, friction: float):
         if friction <= 0:
             raise ValueError("摩擦系数应当为正数")
         else:
             self._cableFriction = friction
 
     @property
-    def cabLen(self):
+    def cabLen(self)-> float:
         return self._cableLen
+
     @cabLen.setter
-    def cabLen(self,cLen):
-        if cLen <=0:
+    def cabLen(self, cLen: float):
+        if cLen <= 0:
             raise ValueError("缆线长度应当为正数")
         else:
-            self._cableLen=cLen
+            self._cableLen = cLen
 
     @property
-    def cableDiameter(self):
+    def cableDiameter(self)-> float:
         return self._cableDiameter
+
     @cableDiameter.setter
-    def cableDiameter(self,diameter):
-        if diameter <=0:
+    def cableDiameter(self, diameter: float):
+        diameter = float(diameter)
+        if diameter <= 0:
             raise ValueError("缆线直径应当为正数")
         else:
-            self._cableDiameter=diameter
+            self._cableDiameter = diameter
 
     @property
-    def cableRadius(self):
-        return self._cableDiameter/2
+    def cableRadius(self) -> float:
+        return self.cableDiameter / 2
+
     @cableRadius.setter
-    def cableRadius(self,radius):
-        if radius<=0:
+    def cableRadius(self, radius: float):
+        radius=float(radius)
+        if radius <= 0:
             raise ValueError("缆线半径应当为正数")
         else:
-            self._cableDiameter=radius*2
+            self.cableDiameter = radius * 2
 
     @property
     def cableMass(self):
         return self._cableMass
+
     @cableMass.setter
-    def cableMass(self,mass):
-        if mass<0:
+    def cableMass(self, mass):
+        if mass < 0:
             raise ValueError("缆线质量应当为非负数")
         else:
-            self._cableMass=mass
-
-
-
-
-
+            self._cableMass = mass
 
 # p.connect(p.GUI)
 # p.setAdditionalSearchPath(pybullet_data.getDataPath())

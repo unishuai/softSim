@@ -460,7 +460,7 @@
          <attribute name="title">
           <string>环境设置</string>
          </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="verticalLayout" stretch="1,8,2">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
@@ -529,34 +529,6 @@
              </spacer>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_addCable">
-            <property name="text">
-             <string>添加缆线</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_removeCable">
-            <property name="text">
-             <string>删除缆线</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_startgraspSim">
-            <property name="text">
-             <string>开始抓取仿真</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="btn_stopGraspSim">
-            <property name="text">
-             <string>停止抓取仿真</string>
-            </property>
-           </widget>
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_3">
@@ -639,6 +611,58 @@
                <widget class="QLineEdit" name="le_cableMass"/>
               </item>
              </layout>
+            </widget>
+            <widget class="QPushButton" name="btn_addCable">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>100</y>
+               <width>151</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>添加缆线</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="btn_removeCable">
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>100</y>
+               <width>161</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>删除缆线</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="btn_startgraspSim">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>130</y>
+               <width>311</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>开始抓取仿真</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="btn_stopGraspSim">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>160</y>
+               <width>311</width>
+               <height>24</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>停止抓取仿真</string>
+             </property>
             </widget>
            </widget>
           </item>

@@ -62,10 +62,25 @@ if __name__ == "__main__":
         # print(f"LEGO模型当前的位置: {legoPos}")
         # print(f"LEGO模型当前的方向: {legoOrn}")
         # if robot.step(objectPos, [-1.57,3.14,-3.14], 5) is True:
-        if robot.step(objectPos, [-2.0,3.14,-3.14], 0) is True:
-            for i in range(50):
-                p.stepSimulation()
-                time.sleep(0.007)
-            objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
+        # if robot.step(objectPos, [-2.0,3.14,-3.14], 0) is True:
+        #     for i in range(50):
+        #         p.stepSimulation()
+        #         time.sleep(0.007)
+        #     objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
+
+
+        contact_points = p.getContactPoints(robot.robotId, ObjectId)
+        if contact_points is not None and len(contact_points)>1:
+            print(f"contact_points的大小为{len(contact_points)}")
+        for point in contact_points:
+            normal_force = point[9]  # 正压力（法向力）
+            lateral_friction1 = point[10]  # 第一个侧向摩擦力
+            lateral_friction2 = point[12]  # 第二个侧向摩擦力
+            print(f"正压力 (normal force): {normal_force}")
+            print(f"侧向摩擦力1 (lateral friction1): {lateral_friction1}")
+            print(f"侧向摩擦力2 (lateral friction2): {lateral_friction2}")
+
+
+
         # robot.moveArm(robot.arm_rest_poses)
         p.stepSimulation()
