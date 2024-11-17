@@ -11,7 +11,7 @@ import numpy as np
 import pybullet as p
 import copy
 from collections import namedtuple
-from deprecated import deprecated
+
 
 
 class Ur10FreeHandSim(object):

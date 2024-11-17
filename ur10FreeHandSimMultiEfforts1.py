@@ -12,7 +12,7 @@ import copy
 
 from collections import namedtuple
 
-from deprecated import deprecated
+from myDeprecated import deprecated
 
 
 class Ur10FreeHandSim(object):

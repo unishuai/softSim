@@ -20,7 +20,7 @@ class CableSim(object):
         self.ballIds=list()
         self.position=position
         # self.cableLen = 4
-        self.ballNum = 36+45
+        self.ballNum = 36
         self.height = 0.01
         # self.sphereRadius = self.cableLen / self.ballNum - self.height
         self.sphereRadius=0.01

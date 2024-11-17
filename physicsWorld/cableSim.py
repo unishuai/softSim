@@ -28,13 +28,13 @@ class CableSim(object):
         self.position = position
         # 添加缆线四个参数，通过函数对外暴露
         # 摩擦系数
-        self._cableFriction: float = cabFri
+        self._cableFriction: float = float(cabFri)
         # 缆线长度
-        self._cableLen: float = cabLen
+        self._cableLen: float = float(cabLen)
         # 缆线直径
         self._cableDiameter: float = float(cabDiameter)
         # 缆线质量
-        self._cableMass: float = cabMass
+        self._cableMass: float = float(cabMass)
 
         # self.height = 0.01
         self.height: float = 0.04
@@ -59,7 +59,7 @@ class CableSim(object):
         # visualShapeId = -1
         colBallId = self.p.createCollisionShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius, height=self.height)
         visualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,
-                                                 length=self.height * 1.8, rgbaColor=[1, 0, 0, 1])
+                                                 length=self.height * 1, rgbaColor=[1, 0, 0, 1])
         endpointsVisualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,length=self.height, rgbaColor=[1, 0, 0, 1])
         useMaximalCoordinates = True
 
@@ -84,6 +84,7 @@ class CableSim(object):
                 linkVisualShapeIndices.append(endpointsVisualShapeId)
             else:
                 linkVisualShapeIndices.append(visualShapeId)
+            #我想起来了，这个修改成的是胶囊，所以会弄的稍微大一些，正常情况下，需要加上它的半圆形
             linkPositions.append([0, 0, self.height])
             linkOrientations.append(self.p.getQuaternionFromEuler([0, 0, 0]))
             linkInertialFramePositions.append([0, 0, 0])
@@ -141,6 +142,7 @@ class CableSim(object):
 
     @cableFriction.setter
     def cableFriction(self, friction: float):
+        friction=float(friction)
         if friction <= 0:
             raise ValueError("摩擦系数应当为正数")
         else:
@@ -152,6 +154,7 @@ class CableSim(object):
 
     @cabLen.setter
     def cabLen(self, cLen: float):
+        cLen=float(cLen)
         if cLen <= 0:
             raise ValueError("缆线长度应当为正数")
         else:
@@ -186,7 +189,8 @@ class CableSim(object):
         return self._cableMass
 
     @cableMass.setter
-    def cableMass(self, mass):
+    def cableMass(self, mass:float):
+        mass=float(mass)
         if mass < 0:
             raise ValueError("缆线质量应当为非负数")
         else:

@@ -134,7 +134,7 @@ class MainWindow(QMainWindow):
         # 添加缆线的功能
         self.ui.btn_addCable.clicked.connect(self.addCableSlot)
         # 删除缆线的功能
-        self.ui.btn_removeCable.clicked.connect(self.removeCableSlot)
+        # self.ui.btn_removeCable.clicked.connect(self.removeCableSlot)
 
         # 灵巧手的弯曲功能
         self.ui.dSpinBox_bend_finger1.valueChanged.connect(self.controlHandSlot)
@@ -167,13 +167,13 @@ class MainWindow(QMainWindow):
 
         # region todo:缆线物理属性的设置显示
         # 这里我先对每一个显示参数设置一个验证器
-        friValidator=QDoubleValidator(0,1,3)
+        friValidator=QDoubleValidator(0,1,4)
         self.ui.le_cableFriction.setValidator(friValidator)
-        lenValidator=QDoubleValidator(0,1,3)
+        lenValidator=QDoubleValidator(0,1,4)
         self.ui.le_cableLen.setValidator(lenValidator)
-        diameterValidator=QDoubleValidator(0,1,3)
+        diameterValidator=QDoubleValidator(0,1,4)
         self.ui.le_cableDiameter.setValidator(diameterValidator)
-        massValidator=QDoubleValidator(0,1,3)
+        massValidator=QDoubleValidator(0,1,4)
         self.ui.le_cableMass.setValidator(massValidator)
 
         # 缆线这里有4个物理参数，同一使用按钮进行导入
@@ -254,8 +254,6 @@ class MainWindow(QMainWindow):
     @QtCore.Slot()
     def stopGraspSimSlot(self):
         self.world.stopGraspSim()
-
-
 
     def getWorldGravity(self):
         return self.world.getWorldGravity()

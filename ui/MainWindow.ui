@@ -29,7 +29,7 @@
         </property>
         <widget class="QWidget" name="modelWidget">
          <attribute name="title">
-          <string>模型控制</string>
+          <string>指抓控制</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -460,7 +460,7 @@
          <attribute name="title">
           <string>环境设置</string>
          </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout" stretch="1,8,2">
+         <layout class="QVBoxLayout" name="verticalLayout" stretch="1,4,3">
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
@@ -547,123 +547,80 @@
             <property name="title">
              <string>缆线参数</string>
             </property>
-            <widget class="QPushButton" name="btn_applyCableParam">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>70</y>
-               <width>111</width>
-               <height>24</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>应用参数</string>
-             </property>
-            </widget>
-            <widget class="QWidget" name="layoutWidget">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>20</y>
-               <width>321</width>
-               <height>48</height>
-              </rect>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_12">
-                <property name="text">
-                 <string>摩擦系数：</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="le_cableFriction"/>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>缆线长度：</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLineEdit" name="le_cableLen"/>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>缆线直径：</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="le_cableDiameter"/>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_14">
-                <property name="text">
-                 <string>缆线重量：</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLineEdit" name="le_cableMass"/>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QPushButton" name="btn_addCable">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>100</y>
-               <width>151</width>
-               <height>24</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>添加缆线</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="btn_removeCable">
-             <property name="geometry">
-              <rect>
-               <x>180</x>
-               <y>100</y>
-               <width>161</width>
-               <height>24</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>删除缆线</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="btn_startgraspSim">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>130</y>
-               <width>311</width>
-               <height>24</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>开始抓取仿真</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="btn_stopGraspSim">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>160</y>
-               <width>311</width>
-               <height>24</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>停止抓取仿真</string>
-             </property>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>摩擦系数：</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="le_cableFriction"/>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>缆线长度：</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="3">
+                <widget class="QLineEdit" name="le_cableLen"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="text">
+                  <string>缆线直径：</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="le_cableDiameter"/>
+               </item>
+               <item row="1" column="2">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>缆线重量：</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QLineEdit" name="le_cableMass"/>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_applyCableParam">
+               <property name="text">
+                <string>应用参数</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_addCable">
+               <property name="text">
+                <string>添加缆线</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_startgraspSim">
+               <property name="text">
+                <string>开始抓取仿真</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_stopGraspSim">
+               <property name="text">
+                <string>停止抓取仿真</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
           <item>
