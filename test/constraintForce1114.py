@@ -14,6 +14,12 @@ import time
 # v1
 import physicsWorld.ur10FreeHandSim as mySim
 from entities.contactPointInfo import ContactPointInfo
+import logging
+
+
+
+# 配置日志系统
+
 
 if __name__ == "__main__":
     # 创建一个解析器对象，并添加描述
@@ -57,6 +63,26 @@ if __name__ == "__main__":
     preLinkId = -1
     baseAngle = [-90, 0, 0]
     basePose = [0.0, 0.0, 0.0]
+    #region todo:设置日志功能
+    logging.basicConfig(
+        filename="constraintForce1114.log",
+        filemode="w",  # 追加模式，如果改成 "w" 会覆盖文件
+        level=logging.DEBUG,  # 设置最低日志级别
+        # format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
+        format=f"totallen:{cableLen}-num:{ballNum}-%(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",  # 日期格式
+    )
+    #获取日志对象
+    logger=logging.getLogger(__name__)
+    #然后是处理器
+    fileHander=logging.FileHandler("constraintForce1114.log", encoding="utf-8")
+    fileHander.setLevel(logging.INFO)
+    # 将处理器添加到日志
+    logger.addHandler(fileHander)
+    logger.info(time.asctime())
+
+    #endregion
+
     for i in range(ballNum):
         colBallId = p.createCollisionShape(p.GEOM_CYLINDER, radius=sphereRadius, height=height)
         visualShapeId = p.createVisualShape(p.GEOM_CYLINDER, radius=sphereRadius, length=height, rgbaColor=[1, 0, 0, 1])
@@ -124,7 +150,7 @@ if __name__ == "__main__":
 
     objectNumJoint = p.getNumJoints(ObjectId)
     mediaLinkState = p.getLinkState(ObjectId, 2)
-    print(f"objectNumJoint:{objectNumJoint},mediaLinkState--:{mediaLinkState}")
+    # print(f"objectNumJoint:{objectNumJoint},mediaLinkState--:{mediaLinkState}")
 
     # objectPos, objectOrn = mediaLinkState[4]
     # print(f"LEGO模型当前的位置: {objectPos}, {objectOrn}")
@@ -144,27 +170,39 @@ if __name__ == "__main__":
             objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
 
         contact_points.clear()
+
+
+        #region todo:控制输出碰撞信息
+        # for ballId in linkIds:
+        #     contactPoints = p.getContactPoints(robot.robotId, ballId)
+        #     for contactPoint in contactPoints:
+        #         # print("接触点信息")
+        #         # for i in contactPoints:
+        #         #     print(i, end=", ")
+        #         # print()
+        #
+        #         linkStateInfoA = p.getLinkState(contactPoint[1], contactPoint[3])
+        #         linkStateInfoB = p.getBasePositionAndOrientation(contactPoint[2])
+        #         # print(f"linkJointA:{linkStateInfoA[0]},linkJointB:{linkStateInfoB[0]}")
+        #         contact_points.append(ContactPointInfo.createContactInfo(contactPoint, linkStateInfoA, linkStateInfoB))
+        #
+        # if contact_points is not None and len(contact_points) > 1:
+        #     print(f"contact_points的大小为{len(contact_points)}")
+        #
+        #     for i in contact_points:
+        #         print(i)
+        #endregion
+
         count=0
-        for ballId in linkIds:
-            contactPoints=p.getContactPoints(robot.robotId,ballId)
-            for contactPoint in contactPoints:
-                # print("接触点信息")
-                # for i in contactPoints:
-                #     print(i, end=", ")
-                # print()
 
-                linkStateInfoA=p.getLinkState(contactPoint[1],contactPoint[3])
-                linkStateInfoB=p.getBasePositionAndOrientation(contactPoint[2])
-                # print(f"linkJointA:{linkStateInfoA[0]},linkJointB:{linkStateInfoB[0]}")
-                contact_points.append(ContactPointInfo.createContactInfo(contactPoint, linkStateInfoA, linkStateInfoB))
+        if count%19000==0:
+            count=0
+            posList =[]
+            for i in linkIds:
+                posList.append(p.getBasePositionAndOrientation(i)[0])
 
-                # contact_points.extend\)
+            logger.info(posList)
 
-        if contact_points is not None and len(contact_points) > 1:
-            print(f"contact_points的大小为{len(contact_points)}")
-
-            for i in contact_points:
-                print(i)
-
+        count += 1
 
         p.stepSimulation()
