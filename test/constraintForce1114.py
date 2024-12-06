@@ -59,7 +59,7 @@ if __name__ == "__main__":
     # 原来的圆球个数，这个是固定的
     # ballNum = 45
     ballNum = int(cableLen / height)
-    sphereRadius = 0.01
+    sphereRadius = 0.001
     preLinkId = -1
     baseAngle = [-90, 0, 0]
     basePose = [0.0, 0.0, 0.0]
@@ -91,7 +91,7 @@ if __name__ == "__main__":
         mass = 0.01
         # 可视化的数据id，-1就是默认颜色，不自定义可视化
         # visualShapeId = -1
-        basePosition = [0 + basePose[0], i * (height) * 1.2 + basePose[1], 0.1 * height + basePose[2]]
+        basePosition = [0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]
         baseOrientation = p.getQuaternionFromEuler(baseAngle)
         linkId = p.createMultiBody(mass,
                                    colBallId,
@@ -118,6 +118,18 @@ if __name__ == "__main__":
             p.changeConstraint(constraint_id, maxForce=10000000, erp=0.95)
         preLinkId = linkId
 
+    # 固定第一段缆线到世界中的固定点
+    fixed_constraint = p.createConstraint(
+        parentBodyUniqueId=linkIds[0],
+        parentLinkIndex=-1,
+        childBodyUniqueId=-1,  # -1 表示世界
+        childLinkIndex=-1,
+        jointType=p.JOINT_POINT2POINT,
+        jointAxis=[0, 0, 0],  # 固定关节不需要轴
+        parentFramePosition=[0, 0, -height / 2],  # 在缆线局部坐标的固定点
+        childFramePosition=[0,0,0.5]  # 世界坐标的固定点
+    )
+
     p.setGravity(0, 0, -10)
     # p.setRealTimeSimulation(0)
 
@@ -130,12 +142,11 @@ if __name__ == "__main__":
                          angularDamping=0.05,
                          rollingFriction=0.01,
                          )
-
     #endregion
 
 
     ObjectId: int = linkIds[len(linkIds)//2]
-    robot = mySim.Ur10FreeHnadSimAuto(p, [0, 0, 0])
+    robot = mySim.Ur10FreeHnadSimAuto(p, [-0.8, 0, 0])
     # for i in [37,38,39,40]:
     #     dynamics_info = p.getDynamicsInfo(robot.robotId, i)
     #     print(f"id={i},dynamics_info:{dynamics_info}")
@@ -157,19 +168,20 @@ if __name__ == "__main__":
     objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
 
     contact_points = []
+    d=p.loadURDF(r'E:\python_code\06pybulletSoftSim\softSim\franka_panda\panda_gripper.urdf',basePosition=[0,0,5])
     for i in range(int(1e18)):
 
         time.sleep(0.007)
 
-        if robot.step(objectPos, [-2.0, 3.14, -3.14], 0) is True:
-            for i in range(50):
-                p.stepSimulation()
-                time.sleep(0.007)
-            # mediaLinkState = p.getLinkState(ObjectId, int(objectNumJoint / 2))
-            # objectPos, objectOrn = mediaLinkState[4, 5]
-            objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
-
-        contact_points.clear()
+        # if robot.step(objectPos, [-2.0, 3.14, -3.14], 0) is True:
+        #     for i in range(50):
+        #         p.stepSimulation()
+        #         time.sleep(0.007)
+        #     # mediaLinkState = p.getLinkState(ObjectId, int(objectNumJoint / 2))
+        #     # objectPos, objectOrn = mediaLinkState[4, 5]
+        #     objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
+        #
+        # contact_points.clear()
 
 
         #region todo:控制输出碰撞信息
