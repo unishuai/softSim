@@ -167,11 +167,11 @@ if __name__ == "__main__":
     )
 
 
-    p.setGravity(0, 0, 0)
+    p.setGravity(0, 0, -9.8)
     # p.setRealTimeSimulation(0)
 
     for i in linkIds:
-        info = p.getDynamicsInfo(i, -1)
+        # info = p.getDynamicsInfo(i, -1)
 
         p.changeDynamics(i, -1,
                          lateralFriction=0.7,

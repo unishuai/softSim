@@ -1,12 +1,11 @@
 # ============================================
 # @Project  : softSim
 # @File     : cableSim.py
-# @Date     : 2024-12-06 21:34
+# @Date     : 2024-08-13 10:04
 # @Author   : unishuai
 # @email    : unishuai@gmail.com
 # @des      : function description
 # ============================================
-import threading
 from typing import Optional, List, Union
 
 import pybullet as p
@@ -18,7 +17,7 @@ import pybullet_data
 class CableSim(object):
 
     def __init__(self, bullet_client: p = p, position: Optional[List[Union[float, int]]] = None, cabFri: float = 0.7,
-                 cabLen: float = 1.2, cabDiameter: float = 0.006, cabMass: float = 0.0016) -> None:
+                 cabLen: float = 0.64, cabDiameter: float = 0.02, cabMass: float = 0.0016) -> None:
         super().__init__()
         if position is None:
             position = [0.3, -.3, 0.1]
@@ -56,94 +55,86 @@ class CableSim(object):
         # 缆线的质量
         # mass = 0.0001
         mass = self.cableMass / self.ballNum
+        # 可视化的数据id，-1就是默认颜色，不自定义可视化
+        # visualShapeId = -1
+        colBallId = self.p.createCollisionShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius, height=self.height)
+        visualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,
+                                                 length=self.height * 1, rgbaColor=[1, 0, 0, 1])
+        endpointsVisualShapeId = self.p.createVisualShape(self.p.GEOM_CAPSULE, radius=self.sphereRadius,length=self.height, rgbaColor=[1, 0, 0, 1])
+        useMaximalCoordinates = True
 
-        # basePosition = [0 + self.position[0], self.height + self.position[1], self.sphereRadius + self.position[2]]
-        # baseOrientation = self.p.getQuaternionFromEuler(baseAngle)
+        basePosition = [0 + self.position[0], self.height + self.position[1], self.sphereRadius + self.position[2]]
+        baseOrientation = self.p.getQuaternionFromEuler(baseAngle)
 
-        preLinkId=-1
-        linkIds=list()
+        linkMasses = list()
+        linkCollisionShapeIndices = list()
+        linkVisualShapeIndices = list()
+        linkPositions = list()
+        linkOrientations = list()
+        linkInertialFramePositions = list()
+        linkInertialFrameOrientations = list()
+        linkParentIndices = list()
+        linkJointTypes = list()
+        linkJointAxis = list()
+
         for i in range(self.ballNum):
-            colBallId = p.createCollisionShape(p.GEOM_CYLINDER, radius=self.sphereRadius, height=self.height)
-            visualShapeId = p.createVisualShape(p.GEOM_CYLINDER, radius=self.sphereRadius, length=self.height,
-                                                rgbaColor=[1, 0, 0, 1])
+            linkMasses.append(mass)
+            linkCollisionShapeIndices.append(colBallId)
+            if i == 0 or i == self.ballNum - 1:
+                linkVisualShapeIndices.append(endpointsVisualShapeId)
+            else:
+                linkVisualShapeIndices.append(visualShapeId)
+            #我想起来了，这个修改成的是胶囊，所以会弄的稍微大一些，正常情况下，需要加上它的半圆形
+            linkPositions.append([0, 0, self.height])
+            linkOrientations.append(self.p.getQuaternionFromEuler([0, 0, 0]))
+            linkInertialFramePositions.append([0, 0, 0])
+            linkInertialFrameOrientations.append(self.p.getQuaternionFromEuler([0, 0, 0]))
+            linkParentIndices.append(i)
+            linkJointTypes.append(self.p.JOINT_FIXED)
+            linkJointAxis.append([0, 0, 0])
 
+        ballId = self.p.createMultiBody(
+            baseMass=mass,
+            baseCollisionShapeIndex=colBallId,
+            baseVisualShapeIndex=endpointsVisualShapeId,
+            basePosition=basePosition,
+            baseOrientation=baseOrientation,
 
-            # 可视化的数据id，-1就是默认颜色，不自定义可视化
-            # visualShapeId = -1
-            basePosition = [0 + self.position[0], i * (self.height) * 1.5 + self.position[1], 0.1 * self.height + self.position[2]]
-            baseOrientation = p.getQuaternionFromEuler(baseAngle)
-            linkId = p.createMultiBody(mass,
-                                       colBallId,
-                                       visualShapeId,
-                                       basePosition,
-                                       baseOrientation
-                                       )
-            linkIds.append(linkId)
-            if preLinkId != -1:
-                constraint_id = p.createConstraint(
-                    parentBodyUniqueId=preLinkId,
-                    parentLinkIndex=-1,
-                    childBodyUniqueId=linkId,
-                    childLinkIndex=-1,
-                    jointType=p.JOINT_FIXED,
-                    jointAxis=[0, 0, 0],
-                    parentFramePosition=[0, 0, self.height / 2],
-                    childFramePosition=(0, 0, -self.height / 2),
+            linkMasses=linkMasses,
+            linkCollisionShapeIndices=linkCollisionShapeIndices,
+            linkVisualShapeIndices=linkVisualShapeIndices,
+            linkPositions=linkPositions,
+            linkOrientations=linkOrientations,
+            linkInertialFramePositions=linkInertialFramePositions,
+            linkInertialFrameOrientations=linkInertialFrameOrientations,
+            linkParentIndices=linkParentIndices,
+            linkJointTypes=linkJointTypes,
+            linkJointAxis=linkJointAxis,
+            useMaximalCoordinates=useMaximalCoordinates
 
-                )
+        )
 
-
-                p.changeConstraint(constraint_id, maxForce=1000, erp=0.9)
-            preLinkId = linkId
-
-        for i in linkIds:
-
-            p.changeDynamics(i, -1,
-                             lateralFriction=0.7,
-                             linearDamping=0.30,
-                             angularDamping=0.30,
+        for i in range(p.getNumJoints(ballId) + 1):
+            # tmp1=p.getJointInfo(tmp, i)
+            # print(f"tmp{i}={tmp1}")
+            p.changeDynamics(ballId, i - 1,
+                             lateralFriction=self._cableFriction,
+                             linearDamping=0.05,
+                             angularDamping=0.05,
                              rollingFriction=0.01,
                              )
 
-        # self.ballIds.append(linkIds)
-        self.ballIds=linkIds
-
-        #todo:一定时间后，取消固定点
-        fixed_constraint = p.createConstraint(
-            parentBodyUniqueId=linkIds[0],
-            parentLinkIndex=-1,
-            childBodyUniqueId=-1,  # -1 表示世界
-            childLinkIndex=-1,
-            jointType=p.JOINT_POINT2POINT,
-            jointAxis=[0, 0, 0],  # 固定关节不需要轴
-            parentFramePosition=[0, 0, -self.height / 2],  # 在缆线局部坐标的固定点
-            childFramePosition=self.position  # 世界坐标的固定点
-        )
-        threading.Timer(2,self.afterCreateActions, args=(fixed_constraint,)).start()
+        self.ballIds.append(ballId)
 
     def removeCable(self):
         for ballId in self.ballIds:
-            if isinstance(ballId, (list,tuple)):
-                for i in ballId:
-                    self.p.removeBody(i)
-            else:
-                self.p.removeBody(ballId)
+            self.p.removeBody(ballId)
         self.ballIds.clear()
 
     def getMeidaPositionAndOrientation(self):
         numJoints = self.p.getNumJoints(self.ballIds[-1])
         mediaJointInfo = self.p.getJointInfo(self.ballIds[-1], numJoints // 2)
         return self.p.getBasePositionAndOrientation(self.ballIds[0])
-
-    def afterCreateActions(self,constraintId,*args, **kwargs):
-        """
-        删除约束
-        :param constraintId:
-        :param args:
-        :param kwargs:
-        :return:
-        """
-        self.p.removeConstraint(constraintId)
 
     @property
     def cableFriction(self)-> float:
