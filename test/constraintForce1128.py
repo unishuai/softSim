@@ -4,7 +4,7 @@
 # @Date     : 2024-11-14 21:11
 # @Author   : unishuai
 # @email    : unishuai@gmail.com
-# @des      : function description
+# @des      : 想直接使用指抓抓取的测试程序（单独导入二指抓碰不到）
 # ============================================
 import argparse
 

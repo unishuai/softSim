@@ -1,3 +1,11 @@
+# ============================================
+# @Project  : softSim
+# @File     : constraintForce1114.py
+# @Date     : 2024-11-14 21:11
+# @Author   : unishuai
+# @email    : unishuai@gmail.com
+# @des      : 机械臂抓取水杯测试（使用捏的方式）
+# ============================================
 import argparse
 import random
 

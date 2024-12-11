@@ -4,7 +4,7 @@
 # @Date     : 2024-11-14 21:11
 # @Author   : unishuai
 # @email    : unishuai@gmail.com
-# @des      : function description
+# @des      : 测试缆线的位置是否符合要求的最终程序
 # ============================================
 import argparse
 

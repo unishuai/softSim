@@ -2,6 +2,8 @@
 # @File    : myHandSim.py
 # @Date    : 2024-06-27 14:48
 # @Author  : 帅宇昕
+# @email    : unishuai@gmail.com
+# @des      : 机械臂测试代码
 # ============================================
 from collections import namedtuple
 

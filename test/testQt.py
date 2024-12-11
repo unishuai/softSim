@@ -1,7 +1,15 @@
+# ============================================
+# @Project  : softSim
+# @File     : testQt.py
+# @Date     : 2024-12-11 22:43
+# @Author   : unishuai
+# @email    : unishuai@gmail.com
+# @des      : 测试Qt是否正常导入
+# ============================================
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsLineItem, \
     QVBoxLayout, QWidget, QInputDialog
-from PyQt5.QtCore import Qt, QPointF
+from PyQt6.QtCore import Qt, QPointF
 
 
 class CableManager(QMainWindow):
@@ -63,4 +71,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = CableManager()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
