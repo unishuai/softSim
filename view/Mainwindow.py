@@ -340,7 +340,7 @@ class MainWindow(QMainWindow):
 
 def run():
     app = QApplication([])
-    apply_stylesheet(app, theme='dark_teal.xml')
+    apply_stylesheet(app, theme='light_purple.xml')
     mainWindow = MainWindow(BulletWorld())
     mainWindow.show()
     sys.exit(app.exec())
