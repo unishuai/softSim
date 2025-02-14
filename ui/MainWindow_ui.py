@@ -365,16 +365,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.le_cableDiameter, 1, 1, 1, 1)
 
-        self.label_14 = QLabel(self.groupBox_3)
-        self.label_14.setObjectName(u"label_14")
-
-        self.gridLayout_3.addWidget(self.label_14, 1, 2, 1, 1)
-
-        self.le_cableMass = QLineEdit(self.groupBox_3)
-        self.le_cableMass.setObjectName(u"le_cableMass")
-
-        self.gridLayout_3.addWidget(self.le_cableMass, 1, 3, 1, 1)
-
 
         self.verticalLayout_6.addLayout(self.gridLayout_3)
 
@@ -458,7 +448,6 @@ class Ui_MainWindow(object):
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u6469\u64e6\u7cfb\u6570\uff1a", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u7f06\u7ebf\u957f\u5ea6\uff1a", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u7f06\u7ebf\u76f4\u5f84\uff1a", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"\u7f06\u7ebf\u91cd\u91cf\uff1a", None))
         self.btn_applyCableParam.setText(QCoreApplication.translate("MainWindow", u"\u5e94\u7528\u53c2\u6570", None))
         self.btn_addCable.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u7f06\u7ebf", None))
         self.btn_startgraspSim.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u6293\u53d6\u4eff\u771f", None))

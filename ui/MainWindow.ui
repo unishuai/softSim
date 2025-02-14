@@ -580,16 +580,6 @@
                <item row="1" column="1">
                 <widget class="QLineEdit" name="le_cableDiameter"/>
                </item>
-               <item row="1" column="2">
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>缆线重量：</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="3">
-                <widget class="QLineEdit" name="le_cableMass"/>
-               </item>
               </layout>
              </item>
              <item>

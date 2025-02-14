@@ -52,9 +52,9 @@ class BulletWorld(QObject):
         # 摩擦系数
         self._cableFriction = 0.7
         # 缆线长度
-        self._cableLen = 0.64
+        self._cableLen = 1.2
         # 缆线直径
-        self._cableDiameter = 0.02
+        self._cableDiameter = 0.008
         # 缆线质量
         self._cableMass = 0.0016
         # endregion
@@ -68,7 +68,9 @@ class BulletWorld(QObject):
 
     @QtCore.Slot()
     def stepWorldSimulation(self, sleepTime: float = 0.0):
+        time.sleep(0.005)
         self.p.stepSimulation()
+
 
         if self.startSim is True:
             if len(self.cables) == 0:
@@ -80,25 +82,28 @@ class BulletWorld(QObject):
 
             # print(f"获取缆线的数据objectPos={objectPos},objectOrn={objectOrn}")
             # for i in range(30):
+            # self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[0])
+            self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[0])
             if self.robot.step(self.objectPos, [-2.0, 3.14, -3.14], 2) is True:
                 # print("这里说明step为True成功进入")
                 # for i in range(100):
                 #     self.p.stepSimulation()
                 # time.sleep(0.001)
                 # todo: 获取每一次抓取的信息
-                contact_points=self.p.getContactPoints(self.robot.robotId,self.cables[0].ballIds[0])
-                # 遍历接触点信息，提取法向力和摩擦力
-                for point in contact_points:
-                    normal_force = point[9]  # 正压力（法向力）
-                    lateral_friction1 = point[10]  # 第一个侧向摩擦力
-                    lateral_friction2 = point[12]  # 第二个侧向摩擦力
 
-                    print(f"正压力 (normal force): {normal_force}")
-                    print(f"侧向摩擦力1 (lateral friction1): {lateral_friction1}")
-                    print(f"侧向摩擦力2 (lateral friction2): {lateral_friction2}")
+                # contact_points=self.p.getContactPoints(self.robot.robotId,self.cables[0].ballIds[0])
+                # # 遍历接触点信息，提取法向力和摩擦力
+                # for point in contact_points:
+                #     normal_force = point[9]  # 正压力（法向力）
+                #     lateral_friction1 = point[10]  # 第一个侧向摩擦力
+                #     lateral_friction2 = point[12]  # 第二个侧向摩擦力
+                #
+                #     print(f"正压力 (normal force): {normal_force}")
+                #     print(f"侧向摩擦力1 (lateral friction1): {lateral_friction1}")
+                #     print(f"侧向摩擦力2 (lateral friction2): {lateral_friction2}")
 
 
-                self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
+                self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[0])
 
         if sleepTime > 0.0000001:
             time.sleep(sleepTime)
@@ -134,9 +139,9 @@ class BulletWorld(QObject):
         # self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1]))
 
         #这个是新版本的，更具Qt窗口添加参数
-        self.cables.append(mycableSim.CableSim(self.p,[0,-0.6,1],cabFri=self._cableFriction,cabLen=self._cableLen,cabDiameter=self._cableDiameter,cabMass=self._cableMass))
+        self.cables.append(mycableSim.CableSim(self.p,[0,-0.8,1],cabFri=self._cableFriction,cabLen=self._cableLen,cabDiameter=self._cableDiameter,cabMass=self._cableMass))
         # print(f"robotId={self.robot.robotId}, cableId={self.cables[-1].ballIds[-1]},cablesLen={len(self.cables)}")
-        self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[-1])
+
 
     def removeCable(self):
         # print("in removeCable")

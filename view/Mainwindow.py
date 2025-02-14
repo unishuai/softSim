@@ -174,7 +174,7 @@ class MainWindow(QMainWindow):
         diameterValidator=QDoubleValidator(0,1,4)
         self.ui.le_cableDiameter.setValidator(diameterValidator)
         massValidator=QDoubleValidator(0,1,4)
-        self.ui.le_cableMass.setValidator(massValidator)
+        # self.ui.le_cableMass.setValidator(massValidator)
 
         # 缆线这里有4个物理参数，同一使用按钮进行导入
         self.ui.btn_applyCableParam.clicked.connect(self.changeCableParamSlot)
@@ -185,7 +185,7 @@ class MainWindow(QMainWindow):
         self.ui.le_cableFriction.setPlaceholderText(format(self.world.cableFriction))
         self.ui.le_cableLen.setPlaceholderText(format(self.world.cableLen))
         self.ui.le_cableDiameter.setPlaceholderText(format(self.world.cableDiameter))
-        self.ui.le_cableMass.setPlaceholderText(format(self.world.cableMass))
+        # self.ui.le_cableMass.setPlaceholderText(format(self.world.cableMass))
 
 
 
@@ -271,7 +271,7 @@ class MainWindow(QMainWindow):
         cableFriction=self.ui.le_cableFriction.text().strip()
         cableLen=self.ui.le_cableLen.text().strip()
         cableDiameter=self.ui.le_cableDiameter.text().strip()
-        cableMass=self.ui.le_cableMass.text().strip()
+        # cableMass=self.ui.le_cableMass.text().strip()
         #然后进行判断，是否存在不为空，且无法转化的数据
         if cableFriction :
             try:
@@ -294,12 +294,12 @@ class MainWindow(QMainWindow):
                 QMessageBox.information(self,'信息',f"缆线直径数据值：{cableDiameter},转化失败")
                 return
 
-        if cableMass:
-            try:
-                float(cableMass)
-            except ValueError:
-                QMessageBox.information(self,'信息',f"缆线质量数据值：{cableMass},转化失败")
-                return
+        # if cableMass:
+        #     try:
+        #         float(cableMass)
+        #     except ValueError:
+        #         QMessageBox.information(self,'信息',f"缆线质量数据值：{cableMass},转化失败")
+        #         return
 
         #开始更新每一个缆线的参数
         if cableFriction:
@@ -308,8 +308,8 @@ class MainWindow(QMainWindow):
             self.setLeCableLen(cableLen)
         if cableDiameter:
             self.setLeCableDiameter(cableDiameter)
-        if cableMass:
-            self.setLeCableMass(cableMass)
+        # if cableMass:
+        #     self.setLeCableMass(cableMass)
 
         # self.world.cableLen=cableLen
         # self.world.cableDiameter=cableDiameter
@@ -331,16 +331,16 @@ class MainWindow(QMainWindow):
         self.ui.le_cableDiameter.clear()
         self.ui.le_cableDiameter.setPlaceholderText(cableDiameter)
 
-    def setLeCableMass(self,cableMass):
-        self.world.cableMass=cableMass
-        self.ui.le_cableMass.clear()
-        self.ui.le_cableMass.setPlaceholderText(cableMass)
+    # def setLeCableMass(self,cableMass):
+    #     self.world.cableMass=cableMass
+    #     self.ui.le_cableMass.clear()
+    #     self.ui.le_cableMass.setPlaceholderText(cableMass)
 
 
 
 def run():
     app = QApplication([])
-    apply_stylesheet(app, theme='dark_teal.xml')
+    apply_stylesheet(app, theme='light_purple.xml')
     mainWindow = MainWindow(BulletWorld())
     mainWindow.show()
     sys.exit(app.exec())
