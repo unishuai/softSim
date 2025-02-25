@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+
+<robot
+  name="Line1101">
+  <link
+    name="link1">
+    <inertial>
+      <origin
+        xyz="0 0 0.015"
+        rpy="0 0 0" />
+      <mass
+        value="0.0094248" />
+      <inertia
+        ixx="9.4248E-07"
+        ixy="0"
+        ixz="-2.732E-39"
+        iyy="9.4248E-07"
+        iyz="-4.5918E-39"
+        izz="4.7124E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/link1.STL" />
+      </geometry>
+      <material
+        name="link1">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="../meshes/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

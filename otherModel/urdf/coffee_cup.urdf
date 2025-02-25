@@ -1,4 +1,4 @@
-<?xml version="0.0" ?>
+<?xml version="1.0" ?>
 <robot name="apple">
   <link name="baseLink">
     <contact>
@@ -15,14 +15,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="meshes/notextures/coffee_cup.obj" scale="0.001 0.001 0.001" />
+        <mesh filename="../meshes/notextures/coffee_cup.obj" scale="0.001 0.001 0.001" />
       </geometry>
 
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-	 	<mesh filename="meshes/notextures/coffee_cup.obj" scale="0.001 0.001 0.001" />
+	 	<mesh filename="../meshes/notextures/coffee_cup.obj" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
   </link>

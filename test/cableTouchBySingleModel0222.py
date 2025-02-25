@@ -1,23 +1,25 @@
 # ============================================
-# @Project  : softSim
-# @File     : constraintForce1114.py
-# @Date     : 2024-11-14 21:11
-# @Author   : unishuai
-# @email    : unishuai@gmail.com
-# @des      : 指抓不会动的测试程序，（中间测试了单存导入指抓是否可以抓取）
+# @File    : cableTouchBySingleModel0222.py
+# @Date    : 2025-02-22 下午8:17
+# @Author  : 帅宇昕
 # ============================================
 import argparse
 
+import hydra
+import numpy as np
 import pybullet as p
 import pybullet_data
 import time
+
+import tacto
+
 # v1
 import physicsWorld.ur10FreeHandSim as mySim
 from entities.contactPointInfo import ContactPointInfo
 import logging
 import pathlib
 
-
+from utils.TactoBodyDataClass import TactoBodyDataClass
 
 # 配置日志系统
 
@@ -65,25 +67,8 @@ if __name__ == "__main__":
     preLinkId = -1
     baseAngle = [-90, 0, 0]
     basePose = [0.0, 0.0, 0.0]
-    #region todo:设置日志功能
-    logging.basicConfig(
-        filename="constraintForce1114.log",
-        filemode="w",  # 追加模式，如果改成 "w" 会覆盖文件
-        level=logging.DEBUG,  # 设置最低日志级别
-        # format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
-        format=f"totallen:{cableLen}-num:{ballNum}-%(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",  # 日期格式
-    )
-    #获取日志对象
-    logger=logging.getLogger(__name__)
-    #然后是处理器
-    fileHander=logging.FileHandler("constraintForce1114.log", encoding="utf-8")
-    fileHander.setLevel(logging.INFO)
-    # 将处理器添加到日志
-    logger.addHandler(fileHander)
-    logger.info(time.asctime())
 
-    #endregion
+
 
     for i in range(ballNum):
         # todo:揽线方式
@@ -103,13 +88,14 @@ if __name__ == "__main__":
         #                            baseOrientation
         #                            )
 
-        # todo:模型方式
+
+        # # todo:模型方式
         mass = 0.003934
         # 可视化的数据id，-1就是默认颜色，不自定义可视化
         # visualShapeId = -1
         basePosition = [0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]
         baseOrientation = p.getQuaternionFromEuler(baseAngle)
-        linkId=p.loadURDF(str(parentPath.joinpath("urdfs").joinpath("test"+str(i)+".urdf")), basePosition, baseOrientation)
+        linkId=p.loadURDF(str(parentPath.parent / "Line1101"/"urdf"/"LineSingle.urdf"), basePosition, baseOrientation)
 
 
 
@@ -122,8 +108,8 @@ if __name__ == "__main__":
                 childLinkIndex=-1,
                 jointType=p.JOINT_FIXED,
                 jointAxis=[0, 0, 0],
-                parentFramePosition=[0, 0, height / 2],
-                childFramePosition=(0, 0, -height / 2),
+                parentFramePosition=[0, 0, height *2/ 7],
+                childFramePosition=(0, 0, -height *2/ 7),
 
             )
 
@@ -132,17 +118,17 @@ if __name__ == "__main__":
             p.changeConstraint(constraint_id, maxForce=10000000, erp=0.95)
         preLinkId = linkId
 
-    # 固定第一段缆线到世界中的固定点
-    fixed_constraint = p.createConstraint(
-        parentBodyUniqueId=linkIds[0],
-        parentLinkIndex=-1,
-        childBodyUniqueId=-1,  # -1 表示世界
-        childLinkIndex=-1,
-        jointType=p.JOINT_POINT2POINT,
-        jointAxis=[0, 0, 0],  # 固定关节不需要轴
-        parentFramePosition=[0, 0, -height / 2],  # 在缆线局部坐标的固定点
-        childFramePosition=[0,0,0.5]  # 世界坐标的固定点
-    )
+    # # 固定第一段缆线到世界中的固定点,就是固定到揽线上面
+    # fixed_constraint = p.createConstraint(
+    #     parentBodyUniqueId=linkIds[0],
+    #     parentLinkIndex=-1,
+    #     childBodyUniqueId=-1,  # -1 表示世界
+    #     childLinkIndex=-1,
+    #     jointType=p.JOINT_POINT2POINT,
+    #     jointAxis=[0, 0, 0],  # 固定关节不需要轴
+    #     parentFramePosition=[0, 0, -height / 2],  # 在缆线局部坐标的固定点
+    #     childFramePosition=[0,0,0.5]  # 世界坐标的固定点
+    # )
 
     p.setGravity(0, 0, -10)
     # p.setRealTimeSimulation(0)
@@ -161,17 +147,48 @@ if __name__ == "__main__":
 
     ObjectId: int = linkIds[len(linkIds)//2]
     robot = mySim.Ur10FreeHnadSimAuto(p, [-0.8, 0, 0])
-    # for i in [37,38,39,40]:
-    #     dynamics_info = p.getDynamicsInfo(robot.robotId, i)
-    #     print(f"id={i},dynamics_info:{dynamics_info}")
 
-    # # fps = 240.
-    # # timeStep = 1. / fps
-    # # 设置仿真步长
-    # p.setTimeStep(robot.control_dt)
-    # # 设置重力
-    # p.setGravity(0, 0, -9.8)
-    #
+    mesh_data = p.getMeshData(linkId, -1)
+    # 打印网格数据
+    print("------------------")
+    print("Vertices:", mesh_data[0])  # 顶点列表
+    print("Faces:", mesh_data[1])  # 面的索引列表
+
+    # mesh_data = p.getMeshData(robot.robotId, 0)
+    # # 打印网格数据
+    # print("------------------")
+    # print("Vertices:", mesh_data[0])  # 顶点列表
+    # print("Faces:", mesh_data[1])  # 面的索引列表
+
+    # region todo:添加触觉传感器sensor
+    linkIdBodyDatas=[]
+
+    # 2️⃣ 加载配置
+    cfg = None
+    with hydra.initialize(config_path="../conf", version_base=None):  # 指定配置文件所在目录
+        cfg = hydra.compose(config_name="bulletWorld")
+    # 测试后确定可以读取文件
+    # print(cfg)
+    # tianjia chaunganqi
+    digits = tacto.Sensor(**cfg.tacto)
+    # tianjia keshihua de xiangji
+    digits.add_camera(robot.robotId, cfg.digit_link_id_allegro)
+    # tianjia bei jiankong de wuti
+
+    for i in range(len(linkIds)):
+        basePosition = [0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]
+        baseOrientation = p.getQuaternionFromEuler(baseAngle)
+
+        linkIdBodyData = TactoBodyDataClass(str(parentPath.parent / "Line1101"/"urdf"/"LineSingle.urdf"), np.array([0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]), 1, linkIds[i])
+        digits.add_body(linkIdBodyData)
+        linkIdBodyDatas.append(linkIdBodyData)
+
+    cupId=p.loadURDF("/home/unishuai/PycharmProjects/softSim/otherModel/urdf/cupTest.urdf", np.array([0.3, -0.6, 1]))
+    linkIdBodyData = TactoBodyDataClass(str(parentPath.parent.joinpath("otherModel").joinpath("urdf").joinpath("cupTest" +".urdf")),np.array([0.3, -0.6, 1]),1, cupId)
+    digits.add_body(linkIdBodyData)
+    # endregion
+
+
 
     objectNumJoint = p.getNumJoints(ObjectId)
     mediaLinkState = p.getLinkState(ObjectId, 2)
@@ -187,48 +204,13 @@ if __name__ == "__main__":
 
         time.sleep(0.007)
 
-        # if robot.step(objectPos, [-2.0, 3.14, -3.14], 0) is True:
-        #     for i in range(50):
-        #         p.stepSimulation()
-        #         time.sleep(0.007)
-        #     # mediaLinkState = p.getLinkState(ObjectId, int(objectNumJoint / 2))
-        #     # objectPos, objectOrn = mediaLinkState[4, 5]
-        #     objectPos, objectOrn = p.getBasePositionAndOrientation(ObjectId)
-        #
-        # contact_points.clear()
 
 
-        #region todo:控制输出碰撞信息
-        # for ballId in linkIds:
-        #     contactPoints = p.getContactPoints(robot.robotId, ballId)
-        #     for contactPoint in contactPoints:
-        #         # print("接触点信息")
-        #         # for i in contactPoints:
-        #         #     print(i, end=", ")
-        #         # print()
-        #
-        #         linkStateInfoA = p.getLinkState(contactPoint[1], contactPoint[3])
-        #         linkStateInfoB = p.getBasePositionAndOrientation(contactPoint[2])
-        #         # print(f"linkJointA:{linkStateInfoA[0]},linkJointB:{linkStateInfoB[0]}")
-        #         contact_points.append(ContactPointInfo.createContactInfo(contactPoint, linkStateInfoA, linkStateInfoB))
-        #
-        # if contact_points is not None and len(contact_points) > 1:
-        #     print(f"contact_points的大小为{len(contact_points)}")
-        #
-        #     for i in contact_points:
-        #         print(i)
-        #endregion
 
-        count=0
 
-        if count%19000==0:
-            count=0
-            posList =[]
-            for i in linkIds:
-                posList.append(p.getBasePositionAndOrientation(i)[0])
 
-            logger.info(posList)
-
-        count += 1
+        if cfg is not None:
+            color, depth =digits.render()
+            digits.updateGUI(color, depth)
 
         p.stepSimulation()

@@ -17,6 +17,10 @@ from PySide6.QtCore import QObject
 import physicsWorld.ur10FreeHandSim as mySim
 # import physicsWorld.cableSim as mycableSim
 import physicsWorld.cableSim as mycableSim
+import tacto
+import hydra
+import utils.TactoBodyDataClass as TactoBodyDataClass
+
 
 
 class BulletWorld(QObject):
@@ -37,7 +41,10 @@ class BulletWorld(QObject):
         self.tableId = self.p.loadURDF("table/table.urdf", basePosition=[0, -0.7, 0])
         self.deskId = self.p.loadURDF("table_square/table_square.urdf", basePosition=[0, 0, 0],globalScaling=0.5)
 
-        self.cupId = self.p.loadURDF("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), globalScaling=1)
+        self.cupId = self.p.loadURDF("otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), globalScaling=1)
+        #用来创建那个物体
+        cupBodyData=TactoBodyDataClass.TactoBodyDataClass("otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), 1,self.cupId)
+
         self.robot = mySim.Ur10FreeHnadSimAuto(self.p, [0, 0, 0.3])
         self.handClosePose =self.robot.getHandClosedPose()
         self.handOpenPose =self.robot.getHandRestPose()
@@ -59,7 +66,33 @@ class BulletWorld(QObject):
         self._cableMass = 0.0016
         # endregion
 
+
+        # region todo:添加触觉传感器sensor
+
+
+        # 2️⃣ 加载配置
+        self.cfg=None
+        with hydra.initialize(config_path="../conf", version_base=None):  # 指定配置文件所在目录
+            self.cfg = hydra.compose(config_name="bulletWorld")
+        #测试后确定可以读取文件
+        # print(cfg)
+        # tianjia chaunganqi
+        self.digits = tacto.Sensor(**self.cfg.tacto)
+        # tianjia keshihua de xiangji
+        self.digits.add_camera(self.robot.robotId, self.cfg.digit_link_id_allegro)
+        #tianjia bei jiankong de wuti
+        self.digits.add_body(cupBodyData)
+
+
+
+        # endregion
+
     def setWorldGravity(self, gravity: float = -9.8):
+        """
+        设置世界的重力大小，默认值为-9.8
+        :param gravity:
+        :return:
+        """
         self.gravity = gravity
         self.p.setGravity(0, 0, gravity)
 
@@ -105,8 +138,14 @@ class BulletWorld(QObject):
 
                 self.objectPos, self.objectOrn = self.p.getBasePositionAndOrientation(self.cables[-1].ballIds[0])
 
+
+        if self.cfg is not None:
+            color, depth = self.digits.render()
+            self.digits.updateGUI(color, depth)
+
         if sleepTime > 0.0000001:
             time.sleep(sleepTime)
+
 
     def isConnected(self) -> bool:
         return self.p.isConnected()
@@ -142,6 +181,14 @@ class BulletWorld(QObject):
         self.cables.append(mycableSim.CableSim(self.p,[0,-0.8,1],cabFri=self._cableFriction,cabLen=self._cableLen,cabDiameter=self._cableDiameter,cabMass=self._cableMass))
         # print(f"robotId={self.robot.robotId}, cableId={self.cables[-1].ballIds[-1]},cablesLen={len(self.cables)}")
 
+
+
+        #fixme: 后续要添加对连线的触觉模拟
+        # todo:添加缆线后，需要添加进入触觉系统
+
+        # cabSimData=self.cables[-1]
+        # for i in cabSimData.ballIds:
+        # self.digits.add_body(-1)
 
     def removeCable(self):
         # print("in removeCable")

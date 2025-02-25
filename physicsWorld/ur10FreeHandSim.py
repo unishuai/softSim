@@ -7,11 +7,13 @@
 import math
 from abc import ABC, abstractmethod
 from typing import List
+from pathlib import Path
 
 import numpy as np
 import pybullet as p
 
 from collections import namedtuple
+
 
 
 class Ur10FreeHandSim(object):
@@ -52,7 +54,11 @@ class Ur10FreeHandSim(object):
         # todo:读取urdf 文件
         # 加载地面
         # self.p.loadURDF("plane.urdf")
-        self.robotId = self.p.loadURDF(r"../freehand_description/urdf/freehand_description.urdf",
+        pathParent=Path(__file__).parents[1]
+        pathRobot=pathParent/"freehand_description"/"urdf"/"freehand_description.urdf"
+        pathRobot.resolve()
+
+        self.robotId = self.p.loadURDF(str(pathRobot),
                                        basePosition=offset,
                                        )
         if self.robotId < 0:

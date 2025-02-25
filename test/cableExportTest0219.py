@@ -1,23 +1,26 @@
-# ============================================
-# @Project  : softSim
-# @File     : constraintForce1114.py
-# @Date     : 2024-11-14 21:11
-# @Author   : unishuai
-# @email    : unishuai@gmail.com
-# @des      : 指抓不会动的测试程序，（中间测试了单存导入指抓是否可以抓取）
-# ============================================
+#============================================
+# @File    : cableExportTest0219.py
+# @Date    : 2025-02-19 下午3:39
+# @Author  : 帅宇昕
+#============================================
+
 import argparse
 
+import hydra
+import numpy as np
 import pybullet as p
 import pybullet_data
 import time
+
+import tacto
+
 # v1
 import physicsWorld.ur10FreeHandSim as mySim
 from entities.contactPointInfo import ContactPointInfo
 import logging
 import pathlib
 
-
+from utils.TactoBodyDataClass import TactoBodyDataClass
 
 # 配置日志系统
 
@@ -65,25 +68,26 @@ if __name__ == "__main__":
     preLinkId = -1
     baseAngle = [-90, 0, 0]
     basePose = [0.0, 0.0, 0.0]
-    #region todo:设置日志功能
-    logging.basicConfig(
-        filename="constraintForce1114.log",
-        filemode="w",  # 追加模式，如果改成 "w" 会覆盖文件
-        level=logging.DEBUG,  # 设置最低日志级别
-        # format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
-        format=f"totallen:{cableLen}-num:{ballNum}-%(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",  # 日期格式
-    )
-    #获取日志对象
-    logger=logging.getLogger(__name__)
-    #然后是处理器
-    fileHander=logging.FileHandler("constraintForce1114.log", encoding="utf-8")
-    fileHander.setLevel(logging.INFO)
-    # 将处理器添加到日志
-    logger.addHandler(fileHander)
-    logger.info(time.asctime())
 
-    #endregion
+    # #region todo:设置日志功能
+    # logging.basicConfig(
+    #     filename="constraintForce1114.log",
+    #     filemode="w",  # 追加模式，如果改成 "w" 会覆盖文件
+    #     level=logging.DEBUG,  # 设置最低日志级别
+    #     # format="%(asctime)s - %(levelname)s - %(message)s",  # 日志格式
+    #     format=f"totallen:{cableLen}-num:{ballNum}-%(message)s",
+    #     datefmt="%Y-%m-%d %H:%M:%S",  # 日期格式
+    # )
+    # #获取日志对象
+    # logger=logging.getLogger(__name__)
+    # #然后是处理器
+    # fileHander=logging.FileHandler("constraintForce1114.log", encoding="utf-8")
+    # fileHander.setLevel(logging.INFO)
+    # # 将处理器添加到日志
+    # logger.addHandler(fileHander)
+    # logger.info(time.asctime())
+    #
+    # #endregion
 
     for i in range(ballNum):
         # todo:揽线方式
@@ -161,6 +165,35 @@ if __name__ == "__main__":
 
     ObjectId: int = linkIds[len(linkIds)//2]
     robot = mySim.Ur10FreeHnadSimAuto(p, [-0.8, 0, 0])
+
+    # region todo:添加触觉传感器sensor
+    linkIdBodyDatas=[]
+
+    # 2️⃣ 加载配置
+    cfg = None
+    with hydra.initialize(config_path="../conf", version_base=None):  # 指定配置文件所在目录
+        cfg = hydra.compose(config_name="bulletWorld")
+    # 测试后确定可以读取文件
+    # print(cfg)
+    # tianjia chaunganqi
+    digits = tacto.Sensor(**cfg.tacto)
+    # tianjia keshihua de xiangji
+    digits.add_camera(robot.robotId, cfg.digit_link_id_allegro)
+    # tianjia bei jiankong de wuti
+
+    # for i in range(len(linkIds)):
+    #     basePosition = [0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]
+    #     baseOrientation = p.getQuaternionFromEuler(baseAngle)
+    #
+    #     linkIdBodyData = TactoBodyDataClass(str(parentPath.joinpath("urdfs").joinpath("test"+str(i)+".urdf")), np.array([0 + basePose[0], i * (height) * 1.5 + basePose[1], 0.1 * height + basePose[2]]), 1, linkIds[i])
+    #     digits.add_body(linkIdBodyData)
+    #     linkIdBodyDatas.append(linkIdBodyData)
+
+    cupId=p.loadURDF("/home/unishuai/PycharmProjects/softSim/otherModel/urdf/cupTest.urdf", np.array([0.3, -0.6, 1]))
+    linkIdBodyData = TactoBodyDataClass(str(parentPath.parent.joinpath("otherModel").joinpath("urdf").joinpath("cupTest" +".urdf")),np.array([0.3, -0.6, 1]),1, cupId)
+    digits.add_body(linkIdBodyData)
+    # endregion
+
     # for i in [37,38,39,40]:
     #     dynamics_info = p.getDynamicsInfo(robot.robotId, i)
     #     print(f"id={i},dynamics_info:{dynamics_info}")
@@ -219,16 +252,21 @@ if __name__ == "__main__":
         #         print(i)
         #endregion
 
-        count=0
+        # count=0
+        #
+        # if count%19000==0:
+        #     count=0
+        #     posList =[]
+        #     for i in linkIds:
+        #         posList.append(p.getBasePositionAndOrientation(i)[0])
 
-        if count%19000==0:
-            count=0
-            posList =[]
-            for i in linkIds:
-                posList.append(p.getBasePositionAndOrientation(i)[0])
+            # logger.info(posList)
 
-            logger.info(posList)
+        # count += 1
 
-        count += 1
+
+        if cfg is not None:
+            color, depth =digits.render()
+            digits.updateGUI(color, depth)
 
         p.stepSimulation()
