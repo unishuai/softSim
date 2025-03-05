@@ -1,0 +1,464 @@
+<?xml version="0.0" ?>
+<robot name="physics">
+	<link name="base_link">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.37225" ixy="0" ixz="0" iyy="0.37225" iyz="0" izz="0.14450"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.60000" radius="0.20000"/>
+			</geometry>
+			<material name="mat_-1_0">
+				<color rgba="0.00000 0.00000 0.80000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.60000" radius="0.17000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_leg">
+		<inertial>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.04267" ixy="0" ixz="0" iyy="0.31067" iyz="0" izz="0.33601"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<geometry>
+				<box size="0.60000 0.20000 0.10000"/>
+			</geometry>
+			<material name="mat_0_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<geometry>
+				<box size="0.60000 0.20000 0.10000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_base">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.14167" ixy="0" ixz="0" iyy="0.01667" iyz="0" izz="0.14167"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.10000 0.40000 0.10000"/>
+			</geometry>
+			<material name="mat_1_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.10000 0.40000 0.10000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_front_wheel">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="1.00000"/>
+			<inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00114" iyz="0" izz="0.00061"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+			<material name="mat_2_0">
+				<color rgba="0.50000 0.50000 0.50000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_back_wheel">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="1.00000"/>
+			<inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00114" iyz="0" izz="0.00061"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+			<material name="mat_3_0">
+				<color rgba="0.50000 0.50000 0.50000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_leg">
+		<inertial>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.04267" ixy="0" ixz="0" iyy="0.31067" iyz="0" izz="0.33601"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<geometry>
+				<box size="0.60000 0.20000 0.10000"/>
+			</geometry>
+			<material name="mat_4_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.00000 -0.30000"/>
+			<geometry>
+				<box size="0.60000 0.20000 0.10000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_base">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.14167" ixy="0" ixz="0" iyy="0.01667" iyz="0" izz="0.14167"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.10000 0.40000 0.10000"/>
+			</geometry>
+			<material name="mat_5_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.10000 0.40000 0.10000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_front_wheel">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="1.00000"/>
+			<inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00114" iyz="0" izz="0.00061"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+			<material name="mat_6_0">
+				<color rgba="0.50000 0.50000 0.50000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_back_wheel">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="1.00000"/>
+			<inertia ixx="0.00114" ixy="0" ixz="0" iyy="0.00114" iyz="0" izz="0.00061"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+			<material name="mat_7_0">
+				<color rgba="0.50000 0.50000 0.50000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.10000" radius="0.03500"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="gripper_pole">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="0.05000"/>
+			<inertia ixx="0.00000" ixy="0" ixz="0" iyy="0.00017" iyz="0" izz="0.00017"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.10000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.20000" radius="0.01000"/>
+			</geometry>
+			<material name="mat_8_0">
+				<color rgba="0.70000 0.70000 0.70000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 1.57080 -0.00000" xyz="0.10000 0.00000 0.00000"/>
+			<geometry>
+				<cylinder length="0.20000" radius="0.01000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_gripper">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="0.05000"/>
+			<inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00007" iyz="0" izz="0.00007"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+			<material name="mat_9_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="left_tip">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="0.05000"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00002" iyz="0" izz="0.00003"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.09137 0.00495 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger_tip.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+			<material name="mat_10_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.09137 0.00495 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger_tip.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_gripper">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="0.05000"/>
+			<inertia ixx="0.00003" ixy="0" ixz="0" iyy="0.00007" iyz="0" izz="0.00007"/>
+		</inertial>
+		<visual>
+			<origin rpy="-3.14150 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+			<material name="mat_11_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="-3.14150 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="right_tip">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="0.05000"/>
+			<inertia ixx="0.00001" ixy="0" ixz="0" iyy="0.00002" iyz="0" izz="0.00003"/>
+		</inertial>
+		<visual>
+			<origin rpy="-3.14150 -0.00000 0.00000" xyz="0.09137 0.00495 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger_tip.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+			<material name="mat_12_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="-3.14150 -0.00000 0.00000" xyz="0.09137 0.00495 0.00000"/>
+			<geometry>
+				<mesh filename="/home/unishuai/anaconda3/envs/softSim/lib/python3.8/site-packages/pybullet_data/l_finger_tip.stl" scale="1.00000 1.00000 1.00000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="head">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="10.00000"/>
+			<inertia ixx="0.10240" ixy="0" ixz="0" iyy="0.10240" iyz="0" izz="0.10240"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<sphere radius="0.16000"/>
+			</geometry>
+			<material name="mat_13_0">
+				<color rgba="1.00000 1.00000 1.00000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<sphere radius="0.16000"/>
+			</geometry>
+		</collision>
+	</link>
+	<link name="box">
+		<inertial>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<mass value="1.00000"/>
+			<inertia ixx="0.00107" ixy="0" ixz="0" iyy="0.00107" iyz="0" izz="0.00107"/>
+		</inertial>
+		<visual>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.08000 0.08000 0.08000"/>
+			</geometry>
+			<material name="mat_14_0">
+				<color rgba="0.00000 0.00000 0.80000 1.00000" />
+			</material>
+		</visual>
+		<collision>
+			<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+			<geometry>
+				<box size="0.08000 0.08000 0.08000"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="base_to_right_leg" type="fixed">
+		<parent link="base_link"/>
+		<child link="right_leg"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.22000 0.00000 0.25000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="right_base_joint" type="fixed">
+		<parent link="right_leg"/>
+		<child link="right_base"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.60000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="right_front_wheel_joint" type="continuous">
+		<parent link="right_base"/>
+		<child link="right_front_wheel"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.13333 -0.08500"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="right_back_wheel_joint" type="continuous">
+		<parent link="right_base"/>
+		<child link="right_back_wheel"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 -0.13333 -0.08500"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="base_to_left_leg" type="fixed">
+		<parent link="base_link"/>
+		<child link="left_leg"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="-0.22000 0.00000 0.25000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="left_base_joint" type="fixed">
+		<parent link="left_leg"/>
+		<child link="left_base"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 -0.60000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="left_front_wheel_joint" type="continuous">
+		<parent link="left_base"/>
+		<child link="left_front_wheel"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 0.13333 -0.08500"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="left_back_wheel_joint" type="continuous">
+		<parent link="left_base"/>
+		<child link="left_back_wheel"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 1.57080 -0.00000" xyz="0.00000 -0.13333 -0.08500"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="gripper_extension" type="prismatic">
+		<parent link="base_link"/>
+		<child link="gripper_pole"/>
+		<limit effort="1000.00000" lower="-0.38000" upper="0.00000" velocity="0.50000"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 1.57075" xyz="0.00000 0.19000 0.20000"/>
+		<axis xyz="1.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="left_gripper_joint" type="revolute">
+		<parent link="gripper_pole"/>
+		<child link="left_gripper"/>
+		<limit effort="1000.00000" lower="0.00000" upper="0.54800" velocity="0.50000"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.20000 0.02000 0.00000"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="left_tip_joint" type="fixed">
+		<parent link="left_gripper"/>
+		<child link="left_tip"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="right_gripper_joint" type="revolute">
+		<parent link="gripper_pole"/>
+		<child link="right_gripper"/>
+		<limit effort="1000.00000" lower="0.00000" upper="0.54800" velocity="0.50000"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.20000 -0.02000 0.00000"/>
+		<axis xyz="0.00000 0.00000 -1.00000"/>
+	</joint>
+	<joint name="right_tip_joint" type="fixed">
+		<parent link="right_gripper"/>
+		<child link="right_tip"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+	<joint name="head_swivel" type="revolute">
+		<parent link="base_link"/>
+		<child link="head"/>
+		<limit effort="1000.00000" lower="-0.38000" upper="0.00000" velocity="0.50000"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.00000 0.30000"/>
+		<axis xyz="0.00000 0.00000 1.00000"/>
+	</joint>
+	<joint name="tobox" type="fixed">
+		<parent link="head"/>
+		<child link="box"/>
+		<dynamics damping="1.0" friction="0.0001"/>
+		<origin rpy="0.00000 -0.00000 0.00000" xyz="0.00000 0.12140 0.12140"/>
+		<axis xyz="0.00000 0.00000 0.00000"/>
+	</joint>
+</robot>

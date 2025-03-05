@@ -8,4 +8,5 @@ tacto:
   visualize_gui: True
 
 # 这个是手指的ID
-digit_link_id_allegro: [ 12, 19, 26, 19, 33, 40 ]
+digit_link_id_allegro: [ 12, 19, 26,  33, 40 ]
+#digit_link_id_allegro: [ 14, 21, 28,  35, 42 ]

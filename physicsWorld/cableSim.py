@@ -9,10 +9,15 @@
 import threading
 from typing import Optional, List, Union
 
+import numpy as np
 import pybullet as p
 import time
 import math
 import pybullet_data
+import pathlib
+import tacto
+
+from utils.TactoBodyDataClass import TactoBodyDataClass
 
 
 class CableSim(object):
@@ -22,6 +27,8 @@ class CableSim(object):
         super().__init__()
         if position is None:
             position = [0.3, -.3, 0.1]
+        # 记录下当前类的文件路径
+        self.parentPath=pathlib.Path(__file__).parent.resolve()
 
         # self.p = p
         self.p: p = bullet_client
@@ -62,22 +69,51 @@ class CableSim(object):
 
         preLinkId=-1
         linkIds=list()
+        self.linkIdBodyDatas=[]
         for i in range(self.ballNum):
-            colBallId = p.createCollisionShape(p.GEOM_CYLINDER, radius=self.sphereRadius, height=self.height)
-            visualShapeId = p.createVisualShape(p.GEOM_CYLINDER, radius=self.sphereRadius, length=self.height,
-                                                rgbaColor=[1, 0, 0, 1])
+            # todo:用代码创建模型
+            # colBallId = p.createCollisionShape(p.GEOM_CYLINDER, radius=self.sphereRadius, height=self.height)
+            # visualShapeId = p.createVisualShape(p.GEOM_CYLINDER, radius=self.sphereRadius, length=self.height,
+            #                                     rgbaColor=[1, 0, 0, 1])
+            #
+            #
+            # # 可视化的数据id，-1就是默认颜色，不自定义可视化
+            # # visualShapeId = -1
+            # basePosition = [0 + self.position[0], i * (self.height) * 1.5 + self.position[1], 0.1 * self.height + self.position[2]]
+            # baseOrientation = p.getQuaternionFromEuler(baseAngle)
+            # linkId = p.createMultiBody(mass,
+            #                            colBallId,
+            #                            visualShapeId,
+            #                            basePosition,
+            #                            baseOrientation
+            #                            )
 
+            # linkIds.append(linkId)
+            # if preLinkId != -1:
+            #     constraint_id = p.createConstraint(
+            #         parentBodyUniqueId=preLinkId,
+            #         parentLinkIndex=-1,
+            #         childBodyUniqueId=linkId,
+            #         childLinkIndex=-1,
+            #         jointType=p.JOINT_FIXED,
+            #         jointAxis=[0, 0, 0],
+            #         parentFramePosition=[0, 0, self.height / 2],
+            #         childFramePosition=(0, 0, -self.height / 2),
+            #
+            #     )
 
-            # 可视化的数据id，-1就是默认颜色，不自定义可视化
-            # visualShapeId = -1
+            # todo:用urdf导入模型
             basePosition = [0 + self.position[0], i * (self.height) * 1.5 + self.position[1], 0.1 * self.height + self.position[2]]
             baseOrientation = p.getQuaternionFromEuler(baseAngle)
-            linkId = p.createMultiBody(mass,
-                                       colBallId,
-                                       visualShapeId,
-                                       basePosition,
-                                       baseOrientation
-                                       )
+            linkId = p.loadURDF(str(self.parentPath.parent/ "Line1101"/"urdf"/"LineSingle.urdf"), basePosition,
+                                baseOrientation)
+            linkIdBodyData = TactoBodyDataClass(str(self.parentPath.parent/ "Line1101"/"urdf"/"LineSingle.urdf"), np.array(basePosition),1,
+                                linkId)
+
+            self.linkIdBodyDatas.append(linkIdBodyData)
+
+
+
             linkIds.append(linkId)
             if preLinkId != -1:
                 constraint_id = p.createConstraint(
@@ -87,8 +123,9 @@ class CableSim(object):
                     childLinkIndex=-1,
                     jointType=p.JOINT_FIXED,
                     jointAxis=[0, 0, 0],
-                    parentFramePosition=[0, 0, self.height / 2],
-                    childFramePosition=(0, 0, -self.height / 2),
+                    # 这个部分也进行了相应的修改
+                    parentFramePosition=[0, 0, self.height *19/50 ],
+                    childFramePosition=(0, 0, -self.height *19/50 ),
 
                 )
 

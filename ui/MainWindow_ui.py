@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'MainWindow.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.7.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,30 +18,32 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QGridLayout, QGroupBox,
     QHBoxLayout, QLabel, QLineEdit, QMainWindow,
     QMenuBar, QPushButton, QSizePolicy, QSlider,
-    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
+    QSpacerItem, QVBoxLayout, QWidget)
 import resource.img_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(784, 617)
+        MainWindow.resize(928, 585)
         icon = QIcon()
-        icon.addFile(u":/Satoru02.jpg", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(u":/Satoru02.jpg", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_7 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalSpacer_3 = QSpacerItem(234, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_7.addItem(self.horizontalSpacer_3)
+
+        self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.tabWidget = QTabWidget(self.centralwidget)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.modelWidget = QWidget()
-        self.modelWidget.setObjectName(u"modelWidget")
-        self.verticalLayout_2 = QVBoxLayout(self.modelWidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.groupBox = QGroupBox(self.modelWidget)
+        self.groupBox_4 = QGroupBox(self.centralwidget)
+        self.groupBox_4.setObjectName(u"groupBox_4")
+        self.verticalLayout_10 = QVBoxLayout(self.groupBox_4)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.groupBox = QGroupBox(self.groupBox_4)
         self.groupBox.setObjectName(u"groupBox")
         self.verticalLayout_4 = QVBoxLayout(self.groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -56,7 +58,7 @@ class Ui_MainWindow(object):
         self.hSlider_bend_finger1.setObjectName(u"hSlider_bend_finger1")
         self.hSlider_bend_finger1.setMinimumSize(QSize(60, 0))
         self.hSlider_bend_finger1.setMaximum(1000)
-        self.hSlider_bend_finger1.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_bend_finger1.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.hSlider_bend_finger1, 0, 2, 1, 1)
 
@@ -69,7 +71,7 @@ class Ui_MainWindow(object):
         self.hSlider_bend_finger2.setObjectName(u"hSlider_bend_finger2")
         self.hSlider_bend_finger2.setMinimumSize(QSize(60, 0))
         self.hSlider_bend_finger2.setMaximum(1000)
-        self.hSlider_bend_finger2.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_bend_finger2.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.hSlider_bend_finger2, 1, 2, 1, 1)
 
@@ -82,7 +84,7 @@ class Ui_MainWindow(object):
         self.hSlider_bend_finger3.setObjectName(u"hSlider_bend_finger3")
         self.hSlider_bend_finger3.setMinimumSize(QSize(60, 0))
         self.hSlider_bend_finger3.setMaximum(1000)
-        self.hSlider_bend_finger3.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_bend_finger3.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.hSlider_bend_finger3, 2, 2, 1, 1)
 
@@ -95,7 +97,7 @@ class Ui_MainWindow(object):
         self.hSlider_bend_finger4.setObjectName(u"hSlider_bend_finger4")
         self.hSlider_bend_finger4.setMinimumSize(QSize(60, 0))
         self.hSlider_bend_finger4.setMaximum(1000)
-        self.hSlider_bend_finger4.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_bend_finger4.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.hSlider_bend_finger4, 3, 2, 1, 1)
 
@@ -108,7 +110,7 @@ class Ui_MainWindow(object):
         self.hSlider_bend_finger5.setObjectName(u"hSlider_bend_finger5")
         self.hSlider_bend_finger5.setMinimumSize(QSize(60, 0))
         self.hSlider_bend_finger5.setMaximum(1000)
-        self.hSlider_bend_finger5.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_bend_finger5.setOrientation(Qt.Horizontal)
 
         self.gridLayout.addWidget(self.hSlider_bend_finger5, 4, 2, 1, 1)
 
@@ -151,9 +153,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addLayout(self.gridLayout)
 
 
-        self.verticalLayout_2.addWidget(self.groupBox)
+        self.verticalLayout_10.addWidget(self.groupBox)
 
-        self.groupBox_2 = QGroupBox(self.modelWidget)
+        self.groupBox_2 = QGroupBox(self.groupBox_4)
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.verticalLayout_5 = QVBoxLayout(self.groupBox_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -169,7 +171,7 @@ class Ui_MainWindow(object):
         self.hSlider_sway_finger1.setMinimumSize(QSize(60, 0))
         self.hSlider_sway_finger1.setMinimum(-500)
         self.hSlider_sway_finger1.setMaximum(500)
-        self.hSlider_sway_finger1.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_sway_finger1.setOrientation(Qt.Horizontal)
 
         self.gridLayout_2.addWidget(self.hSlider_sway_finger1, 0, 2, 1, 1)
 
@@ -183,7 +185,7 @@ class Ui_MainWindow(object):
         self.hSlider_sway_finger2.setMinimumSize(QSize(60, 0))
         self.hSlider_sway_finger2.setMinimum(-500)
         self.hSlider_sway_finger2.setMaximum(500)
-        self.hSlider_sway_finger2.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_sway_finger2.setOrientation(Qt.Horizontal)
 
         self.gridLayout_2.addWidget(self.hSlider_sway_finger2, 1, 2, 1, 1)
 
@@ -197,7 +199,7 @@ class Ui_MainWindow(object):
         self.hSlider_sway_finger3.setMinimumSize(QSize(60, 0))
         self.hSlider_sway_finger3.setMinimum(-500)
         self.hSlider_sway_finger3.setMaximum(500)
-        self.hSlider_sway_finger3.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_sway_finger3.setOrientation(Qt.Horizontal)
 
         self.gridLayout_2.addWidget(self.hSlider_sway_finger3, 2, 2, 1, 1)
 
@@ -212,7 +214,7 @@ class Ui_MainWindow(object):
         self.hSlider_sway_finger4.setMinimum(-500)
         self.hSlider_sway_finger4.setMaximum(500)
         self.hSlider_sway_finger4.setValue(0)
-        self.hSlider_sway_finger4.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_sway_finger4.setOrientation(Qt.Horizontal)
 
         self.gridLayout_2.addWidget(self.hSlider_sway_finger4, 3, 2, 1, 1)
 
@@ -227,7 +229,7 @@ class Ui_MainWindow(object):
         self.hSlider_sway_finger5.setMinimum(-500)
         self.hSlider_sway_finger5.setMaximum(500)
         self.hSlider_sway_finger5.setValue(0)
-        self.hSlider_sway_finger5.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_sway_finger5.setOrientation(Qt.Horizontal)
 
         self.gridLayout_2.addWidget(self.hSlider_sway_finger5, 4, 2, 1, 1)
 
@@ -275,18 +277,22 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addLayout(self.gridLayout_2)
 
 
-        self.verticalLayout_2.addWidget(self.groupBox_2)
+        self.verticalLayout_10.addWidget(self.groupBox_2)
 
-        self.tabWidget.addTab(self.modelWidget, "")
-        self.envWidget = QWidget()
-        self.envWidget.setObjectName(u"envWidget")
-        self.verticalLayout = QVBoxLayout(self.envWidget)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+
+        self.horizontalLayout.addWidget(self.groupBox_4)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.groupBox_5 = QGroupBox(self.centralwidget)
+        self.groupBox_5.setObjectName(u"groupBox_5")
+        self.verticalLayout_2 = QVBoxLayout(self.groupBox_5)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label = QLabel(self.envWidget)
+        self.label = QLabel(self.groupBox_5)
         self.label.setObjectName(u"label")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -296,20 +302,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label)
 
-        self.doubleSpinBox_gravity = QDoubleSpinBox(self.envWidget)
+        self.doubleSpinBox_gravity = QDoubleSpinBox(self.groupBox_5)
         self.doubleSpinBox_gravity.setObjectName(u"doubleSpinBox_gravity")
         self.doubleSpinBox_gravity.setMinimum(-20.000000000000000)
         self.doubleSpinBox_gravity.setMaximum(20.000000000000000)
 
         self.horizontalLayout_2.addWidget(self.doubleSpinBox_gravity)
 
-        self.hSlider_gravity = QSlider(self.envWidget)
+        self.hSlider_gravity = QSlider(self.groupBox_5)
         self.hSlider_gravity.setObjectName(u"hSlider_gravity")
         self.hSlider_gravity.setMinimumSize(QSize(30, 0))
         self.hSlider_gravity.setMaximumSize(QSize(80, 16777215))
         self.hSlider_gravity.setMinimum(-2000)
         self.hSlider_gravity.setMaximum(2000)
-        self.hSlider_gravity.setOrientation(Qt.Orientation.Horizontal)
+        self.hSlider_gravity.setOrientation(Qt.Horizontal)
 
         self.horizontalLayout_2.addWidget(self.hSlider_gravity)
 
@@ -321,9 +327,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
 
-        self.groupBox_3 = QGroupBox(self.envWidget)
+        self.groupBox_3 = QGroupBox(self.groupBox_5)
         self.groupBox_3.setObjectName(u"groupBox_3")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -342,6 +348,7 @@ class Ui_MainWindow(object):
 
         self.le_cableFriction = QLineEdit(self.groupBox_3)
         self.le_cableFriction.setObjectName(u"le_cableFriction")
+        self.le_cableFriction.setMinimumSize(QSize(60, 0))
 
         self.gridLayout_3.addWidget(self.le_cableFriction, 0, 1, 1, 1)
 
@@ -352,6 +359,7 @@ class Ui_MainWindow(object):
 
         self.le_cableLen = QLineEdit(self.groupBox_3)
         self.le_cableLen.setObjectName(u"le_cableLen")
+        self.le_cableLen.setMinimumSize(QSize(60, 0))
 
         self.gridLayout_3.addWidget(self.le_cableLen, 0, 3, 1, 1)
 
@@ -362,6 +370,7 @@ class Ui_MainWindow(object):
 
         self.le_cableDiameter = QLineEdit(self.groupBox_3)
         self.le_cableDiameter.setObjectName(u"le_cableDiameter")
+        self.le_cableDiameter.setMinimumSize(QSize(60, 0))
 
         self.gridLayout_3.addWidget(self.le_cableDiameter, 1, 1, 1, 1)
 
@@ -389,47 +398,41 @@ class Ui_MainWindow(object):
         self.verticalLayout_6.addWidget(self.btn_stopGraspSim)
 
 
-        self.verticalLayout.addWidget(self.groupBox_3)
+        self.verticalLayout_2.addWidget(self.groupBox_3)
 
-        self.verticalSpacer = QSpacerItem(20, 364, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout.addItem(self.verticalSpacer)
+        self.verticalLayout_3.addWidget(self.groupBox_5)
 
-        self.verticalLayout.setStretch(0, 1)
-        self.verticalLayout.setStretch(1, 4)
-        self.verticalLayout.setStretch(2, 3)
-        self.tabWidget.addTab(self.envWidget, "")
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_3.addWidget(self.tabWidget)
+        self.verticalLayout_3.addItem(self.verticalSpacer)
 
-        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_3.addItem(self.verticalSpacer_2)
-
-        self.verticalLayout_3.setStretch(1, 2)
 
         self.horizontalLayout.addLayout(self.verticalLayout_3)
 
-        self.horizontalSpacer_2 = QSpacerItem(377, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalLayout.setStretch(0, 2)
+        self.horizontalLayout.setStretch(1, 2)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+        self.horizontalLayout_7.addLayout(self.horizontalLayout)
+
+        self.horizontalSpacer_4 = QSpacerItem(233, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_7.addItem(self.horizontalSpacer_4)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 784, 22))
+        self.menubar.setGeometry(QRect(0, 0, 928, 27))
         MainWindow.setMenuBar(self.menubar)
 
         self.retranslateUi(MainWindow)
-
-        self.tabWidget.setCurrentIndex(1)
-
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u8f6f\u4f53\u4eff\u771f\u5efa\u6a21\u8f6f\u4ef6", None))
+        self.groupBox_4.setTitle(QCoreApplication.translate("MainWindow", u"\u6307\u6293\u63a7\u5236", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u5f2f\u66f2\u63a7\u5236", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u624b\u63071", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u624b\u63072", None))
@@ -442,7 +445,7 @@ class Ui_MainWindow(object):
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u624b\u63073", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u624b\u63074", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u624b\u63075", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.modelWidget), QCoreApplication.translate("MainWindow", u"\u6307\u6293\u63a7\u5236", None))
+        self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"\u53c2\u6570\u8bbe\u7f6e", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u91cd\u529b\u5927\u5c0f", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"\u7f06\u7ebf\u53c2\u6570", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u6469\u64e6\u7cfb\u6570\uff1a", None))
@@ -452,6 +455,5 @@ class Ui_MainWindow(object):
         self.btn_addCable.setText(QCoreApplication.translate("MainWindow", u"\u6dfb\u52a0\u7f06\u7ebf", None))
         self.btn_startgraspSim.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u6293\u53d6\u4eff\u771f", None))
         self.btn_stopGraspSim.setText(QCoreApplication.translate("MainWindow", u"\u505c\u6b62\u6293\u53d6\u4eff\u771f", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.envWidget), QCoreApplication.translate("MainWindow", u"\u73af\u5883\u8bbe\u7f6e", None))
     # retranslateUi
 
