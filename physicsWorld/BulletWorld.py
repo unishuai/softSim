@@ -41,9 +41,9 @@ class BulletWorld(QObject):
         self.tableId = self.p.loadURDF("table/table.urdf", basePosition=[0, -0.7, 0])
         self.deskId = self.p.loadURDF("table_square/table_square.urdf", basePosition=[0, 0, 0],globalScaling=0.5)
 
-        self.cupId = self.p.loadURDF("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), globalScaling=1)
+        self.cupId = self.p.loadURDF("otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), globalScaling=1)
         #用来创建那个物体
-        cupBodyData=TactoBodyDataClass.TactoBodyDataClass("../otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), 1,self.cupId)
+        cupBodyData=TactoBodyDataClass.TactoBodyDataClass("otherModel/urdf/coffee_cup.urdf", np.array([0.3, -0.6, 1]), 1,self.cupId)
 
         self.robot = mySim.Ur10FreeHnadSimAuto(self.p, [0, 0, 0.3])
         self.handClosePose =self.robot.getHandClosedPose()
