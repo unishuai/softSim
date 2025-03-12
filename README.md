@@ -1,6 +1,59 @@
 ### softSim
 <center>软体仿真项目</center>
 
+### 安装运行命令
+
+#### pip install -r requirements.txt
+
+
+-----
+报如下错误运行(没有运行过Qt5以上的程序)：
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+
+Available platform plugins are: eglfs, vkkhrdisplay, minimalegl, wayland-egl, linuxfb, vnc, xcb, offscreen, wayland, minimal.
+
+已放弃 (核心已转储)
+
+需运行以下命令
+#### sudo apt install libxcb-cursor0
+
+-----
+
+报如下错误操作（OpenGL环境发生问题）：
+X11 functions dynamically loaded using dlopen/dlsym OK!
+X11 functions dynamically loaded using dlopen/dlsym OK!
+libGL error: MESA-LOADER: failed to open swrast: /usr/lib/dri/swrast_dri.so: 无法打开共享对象文件: 没有那个文件或目录 (search paths /usr/lib/x86_64-linux-gnu/dri:\$${ORIGIN}/dri:/usr/lib/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+Creating context
+Failed to create GL 3.3 context ... using old-style GLX context
+Failed to create an OpenGL context
+
+运行以下命令(软链接路径不存在时，创建安装目录即可)
+#### sudo ln -s /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so /usr/lib/dri/swrast_dri.so
+
+---
+遇到如下报错：
+libGL error: MESA-LOADER: failed to open swrast: /lib/x86_64-linux-gnu/libLLVM-12.so.1: undefined symbol: ffi_type_sint32, version LIBFFI_BASE_7.0 (search paths /usr/lib/x86_64-linux-gnu/dri:\$${ORIGIN}/dri:/usr/lib/dri, suffix _dri)
+libGL error: failed to load driver: swrast
+Creating context
+Failed to create GL 3.3 context ... using old-style GLX context
+Failed to create an OpenGL context
+参考链接：
+https://github.com/GuanxingLu/ManiGaussian/issues/2
+
+运行以下命令（建议重启一下，或者新开一个会话）：
+#### echo 'export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libffi.so.7' >> ~/.bashrc
+#### source ~/.bashrc  
+
+
+
+---
+python==3.10.2解释器的运行效果图地址：
+https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/MatrixTheory202503121704450.png
+
+![image-20250312170434133](https://fastly.jsdelivr.net/gh/unishuai/PicGoImg@main/MatrixTheory202503121704450.png)
+
+
 ---
 ### 关节信息
 jointID:1 ,jointName:robot_shoulder_pan_joint ,jointType:JOINT_REVOLUTE
@@ -47,6 +100,8 @@ jointID:40 ,jointName:fi5-4joint ,jointType:JOINT_REVOLUTE
 2024年8月8日10:56:57   添加了桌子和凳子，然后尝试编写抓取方式对缆线进行抓取
 
 2024年8月9日19:57:44
+
+
 
 
 
